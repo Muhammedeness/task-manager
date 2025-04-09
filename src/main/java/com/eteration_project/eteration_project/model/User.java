@@ -10,8 +10,8 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "Users")
+//@Entity
+//@Table(name = "Users")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -34,12 +34,4 @@ public class User {
 
     @Column(name = "Email" , nullable = false)
     private String email;
-
-    //one user can attend many projects
-    //and one project can have many users
-    //so it is a manttomany relation
-
-    //@ManyToMany(mappedBy = "assignedUsers")
-    //private List<Project> projects;
-
 }

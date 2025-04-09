@@ -8,8 +8,8 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity
-@Table(name = "Projects")
+//@Entity
+//@Table(name = "Projects")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,13 +28,5 @@ public class Project {
 
     @Column(name = "Status" , nullable = false)
     private  String status;
-
-    /*@ManyToMany
-    @JoinTable(
-            name = "project_users",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )*/
-    //private List<User> assignedUsers;
 }
 
