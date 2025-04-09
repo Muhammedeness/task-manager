@@ -6,4 +6,6 @@ import com.eteration_project.eteration_project.dto.UserSaveDto;
 public interface IUserController {
 
     UserDto createUser(UserSaveDto userSaveDto);
+
+    UserDto findUserByEmail(String email);
 }

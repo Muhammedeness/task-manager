@@ -7,4 +7,5 @@ import com.eteration_project.eteration_project.model.User;
 public interface UserRepository {
 
     User save(UserSaveDto userSaveDto);
+    User findUserByEmail(String email);
 }

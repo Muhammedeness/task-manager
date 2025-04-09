@@ -30,4 +30,17 @@ public class UserService implements IUserService {
         // userrepodaki.save(saveDto)
         // return edilen useri alıp usrDto ya dönüştürüp controller a yollayacağım
     }
+
+    @Override
+    public UserDto findUserByEmail(String userName) {
+
+        User user = new User();
+        UserDto userDto = new UserDto();
+
+        user= userRepository.findUserByEmail(userName);
+        BeanUtils.copyProperties(user, userDto);
+
+
+        return userDto;
+    }
 }

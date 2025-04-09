@@ -6,10 +6,7 @@ import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.services.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,5 +20,11 @@ public class UserController implements IUserController {
     @Override
     public UserDto createUser(@RequestBody @Valid UserSaveDto userSaveDto) {
         return iUserService.createUser(userSaveDto);
+    }
+
+    @GetMapping(path = "/findUserByMail/{email}")
+    @Override
+    public UserDto findUserByEmail(@PathVariable(name = "email")String email) {
+        return iUserService.findUserByEmail(email);
     }
 }

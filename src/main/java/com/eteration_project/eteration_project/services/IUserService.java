@@ -7,4 +7,7 @@ import com.eteration_project.eteration_project.model.User;
 public interface IUserService {
 
     UserDto createUser(UserSaveDto userSaveDto);
+
+    UserDto findUserByEmail(String email);
+
 }
