@@ -1,8 +1,7 @@
 package com.eteration_project.eteration_project.dto;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.Date;
 
@@ -16,8 +15,11 @@ public class UserSaveDto {
     @Size(min = 2 , max = 25 , message = "Fazla veya az karakter kullanıldı")
     private String lastName;
 
+    @Past(message = "Doğum Tarihi Gelecekte ki bir tarih olarak girildi")
     private Date birthDate;
 
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 
 }
