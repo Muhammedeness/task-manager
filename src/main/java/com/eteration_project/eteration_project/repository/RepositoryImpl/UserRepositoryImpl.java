@@ -1,0 +1,62 @@
+package com.eteration_project.eteration_project.repository.RepositoryImpl;
+
+import com.eteration_project.eteration_project.dto.UserSaveDto;
+import com.eteration_project.eteration_project.model.User;
+import com.eteration_project.eteration_project.repository.RowMapper.UserRowMapper;
+import com.eteration_project.eteration_project.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+@Repository
+public class UserRepositoryImpl implements UserRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+    private final UserRowMapper userRowMapper;
+
+
+
+
+    @Autowired
+    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.userRowMapper = new UserRowMapper();
+    }
+    @Override
+    public User save(UserSaveDto userSaveDto) {
+
+        String sql = "INSERT INTO users (first_name, last_name, birth_date, email) VALUES (?, ?, ?, ?)";
+
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            // Sadece 'id' kolonunu döndürmesini istiyoruz
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, userSaveDto.getFirstName());
+            ps.setString(2, userSaveDto.getLastName());
+            ps.setDate(3, userSaveDto.getBirthDate() != null ? new java.sql.Date(userSaveDto.getBirthDate().getTime()) : null);
+            ps.setString(4, userSaveDto.getEmail());
+            return ps;
+        }, keyHolder);
+
+        // KeyHolder'dan sadece ID alınır
+        Number key = keyHolder.getKey();
+        Integer generatedId = (key != null) ? key.intValue() : null;
+
+        // User nesnesini oluştur
+        User user = new User();
+        user.setId(generatedId);
+        user.setFirstName(userSaveDto.getFirstName());
+        user.setLastName(userSaveDto.getLastName());
+        user.setBirthDate(userSaveDto.getBirthDate());
+        user.setEmail(userSaveDto.getEmail());
+
+        return user;
+    }
+
+}

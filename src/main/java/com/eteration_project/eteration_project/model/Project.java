@@ -29,12 +29,12 @@ public class Project {
     @Column(name = "Status" , nullable = false)
     private  String status;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "project_users",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> assignedUsers;
+    )*/
+    //private List<User> assignedUsers;
 }
 

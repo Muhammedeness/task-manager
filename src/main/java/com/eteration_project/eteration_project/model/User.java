@@ -23,7 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer id;
 
-    @Column(name = "Firstname" , nullable = false)
+    @Column(name = "FirstName" , nullable = false)
     private String firstName;
 
     @Column(name = "Lastname" , nullable = false)
@@ -32,14 +32,14 @@ public class User {
     @Column(name = "BirthDate" , nullable = false)
     private Date birthDate;
 
-    @Column(name = "EmailAddress" , nullable = false)
+    @Column(name = "Email" , nullable = false)
     private String email;
 
     //one user can attend many projects
     //and one project can have many users
     //so it is a manttomany relation
 
-    @ManyToMany(mappedBy = "assignedUsers")
-    private List<Project> projects;
+    //@ManyToMany(mappedBy = "assignedUsers")
+    //private List<Project> projects;
 
 }

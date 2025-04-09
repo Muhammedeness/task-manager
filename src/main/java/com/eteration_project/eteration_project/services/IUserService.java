@@ -1,10 +1,10 @@
-package com.eteration_project.eteration_project.repository;
+package com.eteration_project.eteration_project.services;
 
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.model.User;
 
-public interface UserRepository {
+public interface IUserService {
 
-    User save(UserSaveDto userSaveDto);
+    UserDto createUser(UserSaveDto userSaveDto);
 }

@@ -2,9 +2,17 @@ package com.eteration_project.eteration_project.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserSaveDto {
 
     @NotEmpty(message = "İsim alanı boş bırakılamaz")
