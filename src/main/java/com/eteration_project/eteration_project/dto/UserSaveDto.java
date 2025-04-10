@@ -15,11 +15,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserSaveDto {
 
-    @NotEmpty(message = "İsim alanı boş bırakılamaz")
+    @NotBlank(message = "İsim alanı boş bırakılamaz")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "İsim Alanın Lütfen Kontrol Ediniz")
     @Size(min = 2  , max = 25 , message = "Fazla veya az karakter kullanıldı")
     private String firstName;
 
-    @NotEmpty(message = "Soyisim alanı boş bırakılamaz")
+    @NotBlank(message = "Soyisim alanı boş bırakılamaz")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Soyisim Alanını Lütfen Kontrol Ediniz")
     @Size(min = 2 , max = 25 , message = "Fazla veya az karakter kullanıldı")
     private String lastName;
 
