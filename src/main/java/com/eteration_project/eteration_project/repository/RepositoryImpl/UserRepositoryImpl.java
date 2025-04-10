@@ -5,6 +5,8 @@ import com.eteration_project.eteration_project.model.User;
 import com.eteration_project.eteration_project.repository.RowMapper.UserRowMapper;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -61,11 +63,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByEmail(String email) {
+     try {
+         String sql = "SELECT * FROM users WHERE email = ?";
 
-     String sql = "SELECT * FROM users WHERE email = ?";
+         return jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
+     }
+     catch (EmptyResultDataAccessException e)
+     {
 
-     return  jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
+         return  null;
+         //throw new RuntimeException("EnesException occurred.", e);
+     }
+
     }
-
-
 }

@@ -3,6 +3,7 @@ package com.eteration_project.eteration_project.controller.impl;
 import com.eteration_project.eteration_project.controller.IUserController;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
+import com.eteration_project.eteration_project.repository.RepositoryImpl.UserRepositoryImpl;
 import com.eteration_project.eteration_project.services.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController implements IUserController {
 
+/*
+    @Autowired
+    private UserRepositoryImpl userRepository;*/
 
     @Autowired
     private IUserService iUserService;
@@ -22,9 +26,4 @@ public class UserController implements IUserController {
         return iUserService.createUser(userSaveDto);
     }
 
-    @GetMapping(path = "/findUserByMail/{email}")
-    @Override
-    public UserDto findUserByEmail(@PathVariable(name = "email")String email) {
-        return iUserService.findUserByEmail(email);
-    }
 }

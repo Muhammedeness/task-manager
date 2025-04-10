@@ -8,6 +8,6 @@ public interface IUserService {
 
     UserDto createUser(UserSaveDto userSaveDto);
 
-    UserDto findUserByEmail(String email);
+    Boolean isUserExistsByEmail(String email);
 
 }

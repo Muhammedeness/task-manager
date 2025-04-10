@@ -7,5 +7,5 @@ public interface IUserController {
 
     UserDto createUser(UserSaveDto userSaveDto);
 
-    UserDto findUserByEmail(String email);
+    //UserDto findUserByEmail(String email);
 }

@@ -2,9 +2,13 @@ package com.eteration_project.eteration_project.services.impl;
 
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
+import com.eteration_project.eteration_project.exception.CustomNotFoundException;
+import com.eteration_project.eteration_project.exception.CustomUserExistsException;
 import com.eteration_project.eteration_project.model.User;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import com.eteration_project.eteration_project.services.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,35 +16,46 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements IUserService {
 
+    private static  final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
+
+
     @Autowired
     private UserRepository userRepository;
-
 
     @Override
     public UserDto createUser(UserSaveDto userSaveDto) {
 
-        User savedUser = new User();
+        //DB user check
+         Boolean  isUserExists=this.isUserExistsByEmail(userSaveDto.getEmail());
+         //if users exists in db will return true or false
 
-        UserDto userDto = new UserDto();
-        savedUser = userRepository.save(userSaveDto);
+       // LOGGER.info(isUserExists.toString());
 
-        BeanUtils.copyProperties(savedUser , userDto);
+        if ( isUserExists ){
+            throw  new CustomUserExistsException("Kullanıcı Kayıtlı");
+        } else {
+            User savedUser = new User();
+            UserDto userDto = new UserDto();
+            savedUser = userRepository.save(userSaveDto);
 
-        return  userDto;
-        // userrepodaki.save(saveDto)
-        // return edilen useri alıp usrDto ya dönüştürüp controller a yollayacağım
+            BeanUtils.copyProperties(savedUser , userDto);
+
+            return  userDto;
+            // userrepodaki.save(saveDto)
+            // return edilen useri alıp usrDto ya dönüştürüp controller a yollayacağım
+        }
     }
 
     @Override
-    public UserDto findUserByEmail(String userName) {
+    public Boolean isUserExistsByEmail(String mail) {
 
         User user = new User();
-        UserDto userDto = new UserDto();
+        user= userRepository.findUserByEmail(mail);
+        if (user !=null) {
+            return true;
+        }else
+            return false;
 
-        user= userRepository.findUserByEmail(userName);
-        BeanUtils.copyProperties(user, userDto);
-
-
-        return userDto;
     }
 }
