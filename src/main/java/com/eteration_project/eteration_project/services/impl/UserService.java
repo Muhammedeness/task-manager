@@ -14,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,5 +63,20 @@ public class UserService implements IUserService {
             return true;
         }else
             return false;
+    }
+
+    @Override
+    public List<UserDto> listAllUsers() {
+
+        List<UserDto> userDtoList = new ArrayList<>();
+        List<User> usersList = userRepository.getAllUsers();
+        if (usersList == null) {
+            throw new CustomNotFoundException("Kullanıcı BUlunamadı");
+        }
+        for (User user : usersList) {
+            UserDto userDto = userMapper.userToUserDto(user);
+            userDtoList.add(userDto);
+        }
+        return userDtoList;
     }
 }

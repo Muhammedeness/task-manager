@@ -7,6 +7,7 @@ import com.eteration_project.eteration_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -74,6 +76,16 @@ public class UserRepositoryImpl implements UserRepository {
          return  Optional.empty();
          //throw new RuntimeException("EnesException occurred.", e);
      }
+
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+
+        String sql = "SELECT * FROM users";
+        List<User> users = jdbcTemplate.query(sql , new BeanPropertyRowMapper<>(User.class));
+
+        return users;
 
     }
 }

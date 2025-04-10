@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController implements IUserController {
@@ -24,6 +26,12 @@ public class UserController implements IUserController {
     @Override
     public UserDto createUser(@RequestBody @Valid UserSaveDto userSaveDto) {
         return iUserService.createUser(userSaveDto);
+    }
+
+    @GetMapping(path = "/list")
+    @Override
+    public List<UserDto> listAllUsers() {
+        return iUserService.listAllUsers();
     }
 
 }
