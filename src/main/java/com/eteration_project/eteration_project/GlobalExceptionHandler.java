@@ -2,7 +2,7 @@ package com.eteration_project.eteration_project;
 
 import com.eteration_project.eteration_project.exception.CustomMethodArgumentNotValidExceptionMessage;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.exception.CustomUserExistsException;
+import com.eteration_project.eteration_project.exception.CustomDataExistsException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -24,10 +24,10 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(CustomUserExistsException.class)
+    @ExceptionHandler(CustomDataExistsException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    public String handleCustomUserExistsException(CustomUserExistsException e){
+    public String handleCustomUserExistsException(CustomDataExistsException e){
         return e.getMessage();
     }
 

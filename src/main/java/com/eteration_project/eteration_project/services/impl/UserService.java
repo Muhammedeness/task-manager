@@ -5,7 +5,7 @@ import com.eteration_project.eteration_project.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.exception.CustomUserExistsException;
+import com.eteration_project.eteration_project.exception.CustomDataExistsException;
 import com.eteration_project.eteration_project.model.User;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import com.eteration_project.eteration_project.services.IUserService;
@@ -44,7 +44,7 @@ public class UserService implements IUserService {
        // LOGGER.info(isUserExists.toString());
 
         if ( isUserExists ){
-            throw  new CustomUserExistsException("Kullanıcı Kayıtlı");
+            throw  new CustomDataExistsException("Kullanıcı Kayıtlı");
         } else {
             User savedUser = new User();
             UserDto userDto = new UserDto();

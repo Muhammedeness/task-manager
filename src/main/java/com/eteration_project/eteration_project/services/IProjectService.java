@@ -1,9 +1,11 @@
-package com.eteration_project.eteration_project.controller;
+package com.eteration_project.eteration_project.services;
 
 import com.eteration_project.eteration_project.dto.ProjectDto;
 import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 
-public interface IProjectController {
+public interface IProjectService {
+
 
     ProjectDto createProject(ProjectSaveDto projectSaveDto);
+
 }
