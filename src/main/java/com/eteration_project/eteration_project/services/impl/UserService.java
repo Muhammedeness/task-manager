@@ -13,6 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements IUserService {
 
@@ -50,12 +52,10 @@ public class UserService implements IUserService {
     @Override
     public Boolean isUserExistsByEmail(String mail) {
 
-        User user = new User();
-        user= userRepository.findUserByEmail(mail);
-        if (user !=null) {
+        Optional<User> user = userRepository.findUserByEmail(mail);
+        if (user.isPresent()) {
             return true;
         }else
             return false;
-
     }
 }

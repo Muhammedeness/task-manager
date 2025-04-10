@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -62,18 +63,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
      try {
          String sql = "SELECT * FROM users WHERE email = ?";
-
-         return jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
+         User user= jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
+         return Optional.ofNullable(user);
      }
      catch (EmptyResultDataAccessException e)
      {
-
-         return  null;
+         return  Optional.empty();
          //throw new RuntimeException("EnesException occurred.", e);
      }
+
+
 
     }
 }
