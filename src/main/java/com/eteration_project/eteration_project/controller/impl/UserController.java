@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.controller.impl;
 
 import com.eteration_project.eteration_project.controller.IUserController;
+import com.eteration_project.eteration_project.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.repository.RepositoryImpl.UserRepositoryImpl;
@@ -32,6 +33,12 @@ public class UserController implements IUserController {
     @Override
     public List<UserDto> listAllUsers() {
         return iUserService.listAllUsers();
+    }
+
+    @DeleteMapping("/delete")
+    @Override
+    public String removeUser( @RequestBody  @Valid UserDeleteDto userDeleteDto) {
+        return iUserService.removeUser(userDeleteDto);
     }
 
 }

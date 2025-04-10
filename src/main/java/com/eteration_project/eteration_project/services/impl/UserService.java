@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.services.impl;
 
 import com.eteration_project.eteration_project.Mapper.MapStruct.UserMapper;
+import com.eteration_project.eteration_project.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
@@ -78,5 +79,18 @@ public class UserService implements IUserService {
             userDtoList.add(userDto);
         }
         return userDtoList;
+    }
+
+    @Override
+    public String removeUser(UserDeleteDto userDeleteDto) {
+
+
+        if (isUserExistsByEmail(userDeleteDto.getEmail())){
+
+
+            userRepository.deleteUser(userDeleteDto.getEmail());
+            return "Kullanıcı Silindi";
+        }else
+            throw new CustomNotFoundException("Sİlinmek İstenen Kullanıcı Bulunumadı");
     }
 }

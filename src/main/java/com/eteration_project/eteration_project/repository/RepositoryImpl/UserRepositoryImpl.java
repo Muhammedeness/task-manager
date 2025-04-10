@@ -85,4 +85,11 @@ public class UserRepositoryImpl implements UserRepository {
         return users;
 
     }
+
+    @Override
+    public Integer deleteUser(String email) {
+
+        String sql = "Delete from users WHERE email= ?";
+        return jdbcTemplate.update(sql , email);
+    }
 }

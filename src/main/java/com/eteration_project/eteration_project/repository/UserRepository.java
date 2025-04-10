@@ -16,4 +16,6 @@ public interface UserRepository {
 
     List<User> getAllUsers();
 
+    Integer deleteUser(String email);
+
 }

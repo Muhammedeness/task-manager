@@ -14,5 +14,7 @@ public interface UserMapper {
     //tüm field lar aynı olduğu için mapping ile source ve target eklemeye gerek kalmadı
     UserDto userToUserDto(User user);
 
+
+    User  userDtoToUser(UserDto userDto);
 }
 
