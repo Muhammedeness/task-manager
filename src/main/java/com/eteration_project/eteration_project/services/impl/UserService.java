@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.services.impl;
 
+import com.eteration_project.eteration_project.Mapper.UserMapper;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
@@ -22,8 +23,15 @@ public class UserService implements IUserService {
 
 
 
+    private final UserMapper userMapper;
+
     @Autowired
     private UserRepository userRepository;
+
+
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserDto createUser(UserSaveDto userSaveDto) {
@@ -40,12 +48,9 @@ public class UserService implements IUserService {
             User savedUser = new User();
             UserDto userDto = new UserDto();
             savedUser = userRepository.save(userSaveDto);
-
-            BeanUtils.copyProperties(savedUser , userDto);
+           userDto= userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi
 
             return  userDto;
-            // userrepodaki.save(saveDto)
-            // return edilen useri alıp usrDto ya dönüştürüp controller a yollayacağım
         }
     }
 
