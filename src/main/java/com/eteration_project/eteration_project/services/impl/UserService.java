@@ -1,6 +1,6 @@
 package com.eteration_project.eteration_project.services.impl;
 
-import com.eteration_project.eteration_project.Mapper.UserMapper;
+import com.eteration_project.eteration_project.Mapper.MapStruct.UserMapper;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
@@ -10,7 +10,6 @@ import com.eteration_project.eteration_project.repository.UserRepository;
 import com.eteration_project.eteration_project.services.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

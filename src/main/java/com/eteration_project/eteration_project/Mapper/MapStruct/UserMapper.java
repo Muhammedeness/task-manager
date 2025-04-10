@@ -1,8 +1,7 @@
-package com.eteration_project.eteration_project.Mapper;
+package com.eteration_project.eteration_project.Mapper.MapStruct;
 import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.model.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 

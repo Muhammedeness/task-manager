@@ -2,19 +2,16 @@ package com.eteration_project.eteration_project.repository.RepositoryImpl;
 
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.model.User;
-import com.eteration_project.eteration_project.repository.RowMapper.UserRowMapper;
+import com.eteration_project.eteration_project.Mapper.RowMapper.UserRowMapper;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
