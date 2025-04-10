@@ -54,6 +54,7 @@ public class UserService implements IUserService {
         }
     }
 
+    //userService icinde createUser servisinde kullanılmak üzere kullanıcının db de varlığını kontrol eden servis
     @Override
     public Boolean isUserExistsByEmail(String mail) {
 
@@ -69,7 +70,7 @@ public class UserService implements IUserService {
 
         List<UserDto> userDtoList = new ArrayList<>();
         List<User> usersList = userRepository.getAllUsers();
-        if (usersList == null) {
+        if (usersList.isEmpty()) {
             throw new CustomNotFoundException("Kullanıcı BUlunamadı");
         }
         for (User user : usersList) {
