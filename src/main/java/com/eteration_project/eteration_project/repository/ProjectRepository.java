@@ -21,5 +21,7 @@ public interface ProjectRepository {
 
     Boolean isUserAssignedToProject(AssignUserDto assignUserDto);
 
+    Boolean unAssignUserFromProject(AssignUserDto assignUserDto);
+
 
 }

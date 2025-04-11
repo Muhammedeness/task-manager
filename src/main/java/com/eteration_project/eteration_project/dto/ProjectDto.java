@@ -16,12 +16,9 @@ public class ProjectDto {
     @NotBlank(message = "Boş olamaz")
     private  String projectName;
 
-    //@NotBlank(message = "Boş olamaz")
+    @NotBlank(message = "Boş olamaz")
     private  String  description;
 
-/*
-    //@NotBlank(message = "Boş olamaz")
-    private  String status;*/
 }
 
 

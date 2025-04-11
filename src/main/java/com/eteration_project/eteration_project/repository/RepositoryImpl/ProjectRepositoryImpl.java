@@ -110,4 +110,27 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
+    @Override
+    public Boolean unAssignUserFromProject(AssignUserDto assignUserDto) {
+        try {
+            // 1. User ID'yi al
+            String userSql = "SELECT id FROM users WHERE email = ?";
+            Integer userId = jdbcTemplate.queryForObject(userSql, new Object[]{assignUserDto.getEmail()}, Integer.class);
+
+            // 2. Project ID'yi al
+            String projectSql = "SELECT id FROM projects WHERE project_name = ?";
+            Integer projectId = jdbcTemplate.queryForObject(projectSql, new Object[]{assignUserDto.getProjectName()}, Integer.class);
+
+            // 3. project_user tablosundan bu eşleşmeyi sil
+            String deleteSql = "DELETE FROM project_user WHERE user_id = ? AND project_id = ?";
+            int rowsAffected = jdbcTemplate.update(deleteSql, userId, projectId);
+
+            return rowsAffected > 0;
+        } catch (EmptyResultDataAccessException e) {
+            // Kullanıcı veya proje bulunamazsa veya zaten ilişki yoksa
+            return false;
+        }
+    }
+
+
 }

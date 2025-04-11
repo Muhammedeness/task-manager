@@ -49,11 +49,9 @@ public class ProjectService  implements IProjectService {
     @Override
     public String assignUserToProject(AssignUserDto assignUserDto) {
 
-
         if (projectRepository.isUserAssignedToProject(assignUserDto)) {
             return "Bu Kullanıcı Zaten Projeye Atanmıştır";
         }
-
 
         try {
             projectRepository.assignUserToProject(assignUserDto);
@@ -61,7 +59,21 @@ public class ProjectService  implements IProjectService {
         }
         catch (EmptyResultDataAccessException e)
         {
+            throw  new CustomNotFoundException("Kullanıcı Bulunamadı");
+        }
+    }
 
+    @Override
+    public String unAssignUserFromProject(AssignUserDto assignUserDto) {
+        if (!projectRepository.isUserAssignedToProject(assignUserDto)) {
+            return "Bu Kullanıcı Projeye Atanmamıştır";
+        }
+        try {
+            projectRepository.unAssignUserFromProject(assignUserDto);
+            return "Kullanıcı Başarıyla Projeden Kaldırıldı";
+        }
+        catch (EmptyResultDataAccessException e)
+        {
             throw  new CustomNotFoundException("Kullanıcı Bulunamadı");
         }
     }

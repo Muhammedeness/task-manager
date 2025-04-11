@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDeleteDto {
 
+    @NotBlank(message = "Mail alanı boş bırakılamaz")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
+            flags = Pattern.Flag.CASE_INSENSITIVE , message = "Geçerli Bir Mail Adresi Giriniz")
     private  String  email;
 }

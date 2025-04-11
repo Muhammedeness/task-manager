@@ -8,10 +8,7 @@ import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.services.IProjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/project")
@@ -31,5 +28,11 @@ public class ProjectController  implements IProjectController {
     @Override
     public String assignUserToProject(@RequestBody AssignUserDto assignUserDto) {
         return  iProjectService.assignUserToProject(assignUserDto) ;
+    }
+
+    @DeleteMapping("/unassign")
+    @Override
+    public String unAssignUserFromProject(@RequestBody AssignUserDto assignUserDto) {
+        return iProjectService.unAssignUserFromProject(assignUserDto);
     }
 }

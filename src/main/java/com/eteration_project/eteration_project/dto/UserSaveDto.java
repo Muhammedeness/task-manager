@@ -28,8 +28,9 @@ public class UserSaveDto {
     @Past(message = "Doğum Tarihi Gelecekte ki bir tarih olarak girildi")
     private Date birthDate;
 
+    @NotBlank(message = "Mail alanı boş bırakılamaz")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
+            flags = Pattern.Flag.CASE_INSENSITIVE , message = "Geçerli Bİr Mail Adresi Giriniz")
     private String email;
 
 }

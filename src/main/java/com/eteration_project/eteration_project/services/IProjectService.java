@@ -11,4 +11,6 @@ public interface IProjectService {
 
     String assignUserToProject(AssignUserDto assignUserDto);
 
+    String unAssignUserFromProject(AssignUserDto assignUserDto);
+
 }
