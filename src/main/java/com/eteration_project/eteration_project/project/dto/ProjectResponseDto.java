@@ -13,10 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProjectResponseDto {
 
-    @NotBlank(message = "Boş olamaz")
     private  String projectName;
 
-    @NotBlank(message = "Boş olamaz")
     private  String  description;
 
 }

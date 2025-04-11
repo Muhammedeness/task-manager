@@ -18,7 +18,6 @@ public class ProjectSaveDto {
     @Size(min = 2  , max = 25 , message = "Fazla veya az karakter kullanıldı")
     private  String projectName;
 
-    //@NotBlank(message = "İsim alanı boş bırakılamaz")
     @Size(min = 0  , max = 150 , message = "Fazla veya az karakter kullanıldı")
     private  String  description;
 
