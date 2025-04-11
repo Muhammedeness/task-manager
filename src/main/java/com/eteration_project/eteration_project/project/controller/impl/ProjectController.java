@@ -19,8 +19,8 @@ public class ProjectController  implements IProjectController {
 
     @PostMapping(path = "/create")
     @Override
-    public ProjectResponseDto createProject(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
-        return iProjectService.createProject(projectSaveDto) ;
+    public ProjectResponseDto create(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
+        return iProjectService.create(projectSaveDto) ;
     }
 
     @PostMapping(path = "/assign")

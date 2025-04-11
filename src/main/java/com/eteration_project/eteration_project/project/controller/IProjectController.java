@@ -6,7 +6,7 @@ import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 
 public interface IProjectController {
 
-    ProjectResponseDto createProject(ProjectSaveDto projectSaveDto);
+    ProjectResponseDto create(ProjectSaveDto projectSaveDto);
 
     String assignUserToProject(AssignUserDto assignUserDto);
 

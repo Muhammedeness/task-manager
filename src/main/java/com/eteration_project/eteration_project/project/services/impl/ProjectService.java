@@ -29,7 +29,7 @@ public class ProjectService  implements IProjectService {
     }
 
     @Override
-    public ProjectResponseDto createProject(ProjectSaveDto projectSaveDto) {
+    public ProjectResponseDto create(ProjectSaveDto projectSaveDto) {
 
         Optional<Project> project = projectRepository.getProjectByName(projectSaveDto.getProjectName());
         if (project.isPresent()) {
