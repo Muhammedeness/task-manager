@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.project.repository.RepositoryImpl;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.mapper.rowMapper.ProjectRowMapper;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
@@ -10,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -130,6 +132,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             // Kullanıcı veya proje bulunamazsa veya zaten ilişki yoksa
             return false;
         }
+    }
+
+    @Override
+    public List<ProjectDetailsDto> getProjectDetails(String projectName) {
+
+        return List.of();
     }
 
 

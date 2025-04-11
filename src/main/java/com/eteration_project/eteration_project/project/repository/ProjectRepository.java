@@ -1,10 +1,12 @@
 package com.eteration_project.eteration_project.project.repository;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.project.model.Project;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProjectRepository {
@@ -21,6 +23,8 @@ public interface ProjectRepository {
     Boolean isUserAssignedToProject(AssignUserDto assignUserDto);
 
     Boolean unAssignUserFromProject(AssignUserDto assignUserDto);
+
+    List<ProjectDetailsDto> getProjectDetails(String projectName);
 
 
 }
