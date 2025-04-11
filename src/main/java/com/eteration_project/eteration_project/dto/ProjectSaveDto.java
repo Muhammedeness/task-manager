@@ -18,9 +18,4 @@ public class ProjectSaveDto {
     //@NotBlank(message = "Boş olamaz")
     private  String  description;
 
-
-    @NotBlank(message = "Boş olamaz")
-    private  String status;
-
-
 }

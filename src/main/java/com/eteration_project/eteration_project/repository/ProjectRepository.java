@@ -5,6 +5,7 @@ import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.model.Project;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProjectRepository {
@@ -19,4 +20,6 @@ public interface ProjectRepository {
     Boolean isUserAssigned(UserDeleteDto userDeleteDto);
 
     Boolean isUserAssignedToProject(AssignUserDto assignUserDto);
+
+
 }

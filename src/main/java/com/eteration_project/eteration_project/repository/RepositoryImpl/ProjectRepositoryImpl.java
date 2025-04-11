@@ -26,11 +26,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project save(ProjectSaveDto projectSaveDto) {
-        String sql = "INSERT INTO projects (project_name, description, status) VALUES (?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO projects (project_name, description) VALUES (?, ?) RETURNING id";
 
         Integer newId = jdbcTemplate.queryForObject(
                 sql,
-                new Object[]{projectSaveDto.getProjectName(), projectSaveDto.getDescription(), projectSaveDto.getStatus()},
+                new Object[]{projectSaveDto.getProjectName(), projectSaveDto.getDescription()},
                 Integer.class
         );
 
@@ -38,7 +38,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         project.setId(newId);
         project.setProjectName(projectSaveDto.getProjectName());
         project.setDescription(projectSaveDto.getDescription());
-        project.setStatus(projectSaveDto.getStatus());
 
         return project;
     }

@@ -19,9 +19,9 @@ public class ProjectDto {
     //@NotBlank(message = "Boş olamaz")
     private  String  description;
 
-
+/*
     //@NotBlank(message = "Boş olamaz")
-    private  String status;
+    private  String status;*/
 }
 
 

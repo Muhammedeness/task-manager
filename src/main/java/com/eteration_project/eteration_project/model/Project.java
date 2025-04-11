@@ -25,8 +25,5 @@ public class Project {
 
     @Column(name = "Description" , nullable = false)
     private  String  description;
-
-    @Column(name = "Status" , nullable = false)
-    private  String status;
 }
 
