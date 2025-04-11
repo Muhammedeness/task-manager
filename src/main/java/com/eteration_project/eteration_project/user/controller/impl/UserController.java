@@ -36,8 +36,8 @@ public class UserController implements IUserController {
 
     @DeleteMapping("/delete")
     @Override
-    public String removeUser( @RequestBody  @Valid UserDeleteDto userDeleteDto) {
-        return iUserService.removeUser(userDeleteDto);
+    public String remove( @RequestBody  @Valid UserDeleteDto userDeleteDto) {
+        return iUserService.remove(userDeleteDto);
     }
 
 }

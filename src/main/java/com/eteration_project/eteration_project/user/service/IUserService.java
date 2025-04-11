@@ -15,6 +15,6 @@ public interface IUserService {
     List<UserResponseDto> listAllUsers();
 
 
-    String removeUser(UserDeleteDto userDeleteDto);
+    String remove(UserDeleteDto userDeleteDto);
 
 }

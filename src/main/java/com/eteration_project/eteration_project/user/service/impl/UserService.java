@@ -85,7 +85,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String removeUser(UserDeleteDto userDeleteDto) {
+    public String remove(UserDeleteDto userDeleteDto) {
 
         if (projectRepository.isUserAssigned(userDeleteDto))
             return "Bu Kullanıcı Aktif Bir Projede Bulunmaktadır. Kullanıcıyı Silmek için projeden unassign etmeniz gerekir";

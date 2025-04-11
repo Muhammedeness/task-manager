@@ -14,5 +14,5 @@ public interface IUserController {
 
     List<UserResponseDto> listAllUsers();
 
-    String removeUser(UserDeleteDto userDeleteDto);
+    String remove(UserDeleteDto userDeleteDto);
 }
