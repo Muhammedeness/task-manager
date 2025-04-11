@@ -39,7 +39,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponseDto createUser(UserSaveDto userSaveDto) {
+    public UserResponseDto create(UserSaveDto userSaveDto) {
 
          Boolean  isUserExists=this.isUserExistsByEmail(userSaveDto.getEmail());
          //if users exists in db will return true or false

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IUserController {
 
-    UserResponseDto createUser(UserSaveDto userSaveDto);
+    UserResponseDto create(UserSaveDto userSaveDto);
 
     //UserDto findUserByEmail(String email);
 

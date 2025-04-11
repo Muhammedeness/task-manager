@@ -24,8 +24,8 @@ public class UserController implements IUserController {
 
     @PostMapping(path = "/create" )
     @Override
-    public UserResponseDto createUser(@RequestBody @Valid UserSaveDto userSaveDto) {
-        return iUserService.createUser(userSaveDto);
+    public UserResponseDto create(@RequestBody @Valid UserSaveDto userSaveDto) {
+        return iUserService.create(userSaveDto);
     }
 
     @GetMapping(path = "/list")

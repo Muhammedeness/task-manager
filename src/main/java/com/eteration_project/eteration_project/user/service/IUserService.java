@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    UserResponseDto createUser(UserSaveDto userSaveDto);
+    UserResponseDto create(UserSaveDto userSaveDto);
 
     Boolean isUserExistsByEmail(String email);
 
