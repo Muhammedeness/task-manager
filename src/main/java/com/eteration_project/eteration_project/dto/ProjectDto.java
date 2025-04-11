@@ -20,7 +20,7 @@ public class ProjectDto {
     private  String  description;
 
 
-    @NotBlank(message = "Boş olamaz")
+    //@NotBlank(message = "Boş olamaz")
     private  String status;
 }
 

@@ -2,6 +2,7 @@ package com.eteration_project.eteration_project.controller.impl;
 
 import com.eteration_project.eteration_project.controller.IProjectController;
 import com.eteration_project.eteration_project.controller.IUserController;
+import com.eteration_project.eteration_project.dto.AssignUserDto;
 import com.eteration_project.eteration_project.dto.ProjectDto;
 import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.services.IProjectService;
@@ -24,5 +25,11 @@ public class ProjectController  implements IProjectController {
     @Override
     public ProjectDto createProject( @RequestBody @Valid ProjectSaveDto projectSaveDto) {
         return iProjectService.createProject(projectSaveDto) ;
+    }
+
+    @PostMapping(path = "/assign")
+    @Override
+    public String assignUserToProject(@RequestBody AssignUserDto assignUserDto) {
+        return  iProjectService.assignUserToProject(assignUserDto) ;
     }
 }

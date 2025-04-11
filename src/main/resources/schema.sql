@@ -17,4 +17,13 @@ CREATE TABLE projects (
     status VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE project_user (
+    project_id BIGINT,
+    user_id BIGINT,
+    PRIMARY KEY (project_id, user_id),
+    FOREIGN KEY (project_id) REFERENCES projects(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
 

@@ -7,6 +7,7 @@ import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.exception.CustomDataExistsException;
 import com.eteration_project.eteration_project.model.User;
+import com.eteration_project.eteration_project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import com.eteration_project.eteration_project.services.IUserService;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
@@ -84,9 +87,10 @@ public class UserService implements IUserService {
     @Override
     public String removeUser(UserDeleteDto userDeleteDto) {
 
+        if (projectRepository.isUserAssigned(userDeleteDto))
+            return "Bu Kullanıcı Aktif Bir Projede Bulunmaktadır. Kullanıcıyı Silmek için projeden unassign etmeniz gerekir";
 
         if (isUserExistsByEmail(userDeleteDto.getEmail())){
-
 
             userRepository.deleteUser(userDeleteDto.getEmail());
             return "Kullanıcı Silindi";
