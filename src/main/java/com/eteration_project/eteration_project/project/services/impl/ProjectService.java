@@ -10,9 +10,11 @@ import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.project.services.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,10 @@ public class ProjectService  implements IProjectService {
 
 
     private final ProjectMapper projectMapper;
+
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -40,20 +46,18 @@ public class ProjectService  implements IProjectService {
 
             ProjectResponseDto projectResponseDto = projectMapper.projectToProjectDto(savedProject);
             return projectResponseDto;
-
         }
     }
-
     @Override
     public String assignUserToProject(AssignUserDto assignUserDto) {
 
         if (projectRepository.isUserAssignedToProject(assignUserDto)) {
-            return "Bu Kullanıcı Zaten Projeye Atanmıştır";
+            return  messageSource.getMessage("user.assigned" , null , Locale.getDefault());
         }
 
         try {
             projectRepository.assignUserToProject(assignUserDto);
-            return "Kullanıcı Başarıyla Projeye Atandı";
+            return  messageSource.getMessage("success.user.assign" , null , Locale.getDefault());
         }
         catch (EmptyResultDataAccessException e)
         {
@@ -64,11 +68,12 @@ public class ProjectService  implements IProjectService {
     @Override
     public String unAssignUserFromProject(AssignUserDto assignUserDto) {
         if (!projectRepository.isUserAssignedToProject(assignUserDto)) {
-            return "Bu Kullanıcı Projeye Atanmamıştır";
+            return  messageSource.getMessage("error.user.unassign" , null , Locale.getDefault());
         }
         try {
             projectRepository.unAssignUserFromProject(assignUserDto);
-            return "Kullanıcı Başarıyla Projeden Kaldırıldı";
+
+            return  messageSource.getMessage("success.user.removedproject" , null , Locale.getDefault());
         }
         catch (EmptyResultDataAccessException e)
         {

@@ -13,10 +13,13 @@ import com.eteration_project.eteration_project.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -27,6 +30,9 @@ public class UserService implements IUserService {
 
 
     private final UserMapper userMapper;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,8 +49,6 @@ public class UserService implements IUserService {
 
          Boolean  isUserExists=this.isUserExistsByEmail(userSaveDto.getEmail());
          //if users exists in db will return true or false
-
-       // LOGGER.info(isUserExists.toString());
 
         if ( isUserExists ){
             throw  new CustomDataExistsException("Kullanıcı Kayıtlı");
@@ -88,12 +92,12 @@ public class UserService implements IUserService {
     public String remove(UserDeleteDto userDeleteDto) {
 
         if (projectRepository.isUserAssigned(userDeleteDto))
-            return "Bu Kullanıcı Aktif Bir Projede Bulunmaktadır. Kullanıcıyı Silmek için projeden unassign etmeniz gerekir";
+            return  messageSource.getMessage("error.user.removed" , null , Locale.getDefault());
 
         if (isUserExistsByEmail(userDeleteDto.getEmail())){
 
             userRepository.deleteUser(userDeleteDto.getEmail());
-            return "Kullanıcı Silindi";
+            return  messageSource.getMessage("success.user.removed" , null , Locale.getDefault());
         }else
             throw new CustomNotFoundException("Sİlinmek İstenen Kullanıcı Bulunumadı");
     }
