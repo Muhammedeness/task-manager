@@ -1,16 +1,14 @@
 package com.eteration_project.eteration_project.services.impl;
 
-import com.eteration_project.eteration_project.Mapper.MapStruct.ProjectMapper;
+import com.eteration_project.eteration_project.mapper.ProjectMapper;
 import com.eteration_project.eteration_project.dto.AssignUserDto;
-import com.eteration_project.eteration_project.dto.ProjectDto;
+import com.eteration_project.eteration_project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.exception.CustomDataExistsException;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.model.Project;
 import com.eteration_project.eteration_project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.services.IProjectService;
-import org.apache.coyote.BadRequestException;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,7 @@ public class ProjectService  implements IProjectService {
     }
 
     @Override
-    public ProjectDto createProject(ProjectSaveDto projectSaveDto) {
+    public ProjectResponseDto createProject(ProjectSaveDto projectSaveDto) {
 
         Optional<Project> project = projectRepository.getProjectByName(projectSaveDto.getProjectName());
         if (project.isPresent()) {
@@ -40,8 +38,8 @@ public class ProjectService  implements IProjectService {
 
             Project savedProject = projectRepository.save(projectSaveDto);
 
-            ProjectDto projectDto = projectMapper.projectToProjectDto(savedProject);
-            return projectDto;
+            ProjectResponseDto projectResponseDto = projectMapper.projectToProjectDto(savedProject);
+            return projectResponseDto;
 
         }
     }

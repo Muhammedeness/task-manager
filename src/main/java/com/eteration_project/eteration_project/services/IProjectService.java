@@ -1,13 +1,13 @@
 package com.eteration_project.eteration_project.services;
 
 import com.eteration_project.eteration_project.dto.AssignUserDto;
-import com.eteration_project.eteration_project.dto.ProjectDto;
+import com.eteration_project.eteration_project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 
 public interface IProjectService {
 
 
-    ProjectDto createProject(ProjectSaveDto projectSaveDto);
+    ProjectResponseDto createProject(ProjectSaveDto projectSaveDto);
 
     String assignUserToProject(AssignUserDto assignUserDto);
 

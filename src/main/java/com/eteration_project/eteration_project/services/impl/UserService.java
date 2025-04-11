@@ -1,8 +1,8 @@
 package com.eteration_project.eteration_project.services.impl;
 
-import com.eteration_project.eteration_project.Mapper.MapStruct.UserMapper;
+import com.eteration_project.eteration_project.dto.UserResponseDto;
+import com.eteration_project.eteration_project.mapper.UserMapper;
 import com.eteration_project.eteration_project.dto.UserDeleteDto;
-import com.eteration_project.eteration_project.dto.UserDto;
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.exception.CustomDataExistsException;
@@ -39,7 +39,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDto createUser(UserSaveDto userSaveDto) {
+    public UserResponseDto createUser(UserSaveDto userSaveDto) {
 
          Boolean  isUserExists=this.isUserExistsByEmail(userSaveDto.getEmail());
          //if users exists in db will return true or false
@@ -50,7 +50,7 @@ public class UserService implements IUserService {
             throw  new CustomDataExistsException("Kullanıcı Kayıtlı");
         } else {
             User savedUser = new User();
-            UserDto userDto = new UserDto();
+            UserResponseDto userDto = new UserResponseDto();
             savedUser = userRepository.save(userSaveDto);
            userDto= userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi
 
@@ -70,15 +70,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserDto> listAllUsers() {
+    public List<UserResponseDto> listAllUsers() {
 
-        List<UserDto> userDtoList = new ArrayList<>();
+        List<UserResponseDto> userDtoList = new ArrayList<>();
         List<User> usersList = userRepository.getAllUsers();
         if (usersList.isEmpty()) {
             throw new CustomNotFoundException("Kullanıcı BUlunamadı");
         }
         for (User user : usersList) {
-            UserDto userDto = userMapper.userToUserDto(user);
+            UserResponseDto userDto = userMapper.userToUserDto(user);
             userDtoList.add(userDto);
         }
         return userDtoList;

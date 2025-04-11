@@ -1,5 +1,5 @@
-package com.eteration_project.eteration_project.Mapper.MapStruct;
-import com.eteration_project.eteration_project.dto.UserDto;
+package com.eteration_project.eteration_project.mapper;
+import com.eteration_project.eteration_project.dto.UserResponseDto;
 import com.eteration_project.eteration_project.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -12,9 +12,9 @@ public interface UserMapper {
 
     //@Mapping(source = "firstName" , target = "firstName")
     //tüm field lar aynı olduğu için mapping ile source ve target eklemeye gerek kalmadı
-    UserDto userToUserDto(User user);
+    UserResponseDto userToUserDto(User user);
 
 
-    User  userDtoToUser(UserDto userDto);
+    User  userDtoToUser(UserResponseDto userDto);
 }
 

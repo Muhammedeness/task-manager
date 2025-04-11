@@ -1,6 +1,6 @@
 package com.eteration_project.eteration_project.repository.RepositoryImpl;
 
-import com.eteration_project.eteration_project.Mapper.RowMapper.ProjectRowMapper;
+import com.eteration_project.eteration_project.mapper.rowMapper.ProjectRowMapper;
 import com.eteration_project.eteration_project.dto.AssignUserDto;
 import com.eteration_project.eteration_project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.dto.UserDeleteDto;
@@ -103,7 +103,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{userId, projectId}, Integer.class);
 
 
-            return count != null && count > 0;
+            return count>0;
         } catch (EmptyResultDataAccessException e) {
             // Kullanıcı bulunamazsa, zaten hiçbir projeye atanmış olamaz
             return false;

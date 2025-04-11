@@ -2,7 +2,7 @@ package com.eteration_project.eteration_project.repository.RepositoryImpl;
 
 import com.eteration_project.eteration_project.dto.UserSaveDto;
 import com.eteration_project.eteration_project.model.User;
-import com.eteration_project.eteration_project.Mapper.RowMapper.UserRowMapper;
+import com.eteration_project.eteration_project.mapper.rowMapper.UserRowMapper;
 import com.eteration_project.eteration_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

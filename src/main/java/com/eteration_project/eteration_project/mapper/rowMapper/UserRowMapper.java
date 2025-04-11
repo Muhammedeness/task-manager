@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.Mapper.RowMapper;
+package com.eteration_project.eteration_project.mapper.rowMapper;
 
 import com.eteration_project.eteration_project.model.User;
 import org.springframework.jdbc.core.RowMapper;

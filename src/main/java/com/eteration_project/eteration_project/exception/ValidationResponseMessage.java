@@ -13,7 +13,7 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomMethodArgumentNotValidExceptionMessage {
+public class ValidationResponseMessage {
     private Map<String, String> methodNotValidErrors = new HashMap<>();
 
     public void addErrorToTheMap(String field , String errorMessage) {

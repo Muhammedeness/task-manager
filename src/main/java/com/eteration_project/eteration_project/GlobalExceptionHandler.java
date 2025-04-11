@@ -1,6 +1,6 @@
 package com.eteration_project.eteration_project;
 
-import com.eteration_project.eteration_project.exception.CustomMethodArgumentNotValidExceptionMessage;
+import com.eteration_project.eteration_project.exception.ValidationResponseMessage;
 import com.eteration_project.eteration_project.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.exception.CustomDataExistsException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -43,9 +43,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public CustomMethodArgumentNotValidExceptionMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ValidationResponseMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
 
-        CustomMethodArgumentNotValidExceptionMessage customMethodArgumentNotValidExceptionMessage = new CustomMethodArgumentNotValidExceptionMessage();
+        ValidationResponseMessage customMethodArgumentNotValidExceptionMessage = new ValidationResponseMessage();
 
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
 
