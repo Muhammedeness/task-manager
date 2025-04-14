@@ -10,11 +10,10 @@ public interface IUserService {
 
     UserResponseDto create(UserSaveDto userSaveDto);
 
-    Boolean isUserExistsByEmail(String email);
 
     List<UserResponseDto> listAllUsers();
 
 
-    String remove(UserDeleteDto userDeleteDto);
+    void remove(UserDeleteDto userDeleteDto);
 
 }
