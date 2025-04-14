@@ -22,7 +22,7 @@ public interface ProjectRepository {
 
     Boolean isUserAssignedToProject(AssignUserDto assignUserDto);
 
-    Boolean unAssignUserFromProject(AssignUserDto assignUserDto);
+    void unAssignUserFromProject(AssignUserDto assignUserDto);
 
     //List<ProjectDetailsDto> getProjectDetails(String projectName);
 

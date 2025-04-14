@@ -32,4 +32,10 @@ public class ProjectValidator {
         }
     }
 
+    public void isUserNotAssignedToProjectValidation(AssignUserDto assignUserDto){
+        if (!projectRepository.isUserAssignedToProject(assignUserDto)) {
+            throw new CustomRuntimeException("error.user.unassign");
+        }
+    }
+
 }
