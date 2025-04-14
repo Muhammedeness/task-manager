@@ -36,19 +36,13 @@ public class UserService implements IUserService {
     @Override
     public UserResponseDto create(UserSaveDto userSaveDto) {
 
-         Boolean  isUserExists=this.isUserExistsByEmail(userSaveDto.getEmail());
-         //if users exists in db will return true or false
+        userValidator.isUserExistsCreateValidation(userSaveDto.getEmail());    //kullanıcı kontrolünü validator aracılıgı ile yaptık
 
-        if ( isUserExists ){
-            throw  new CustomDataExistsException("Kullanıcı Kayıtlı");
-        } else {
-            User savedUser = new User();
-            UserResponseDto userDto = new UserResponseDto();
-            savedUser = userRepository.save(userSaveDto);
-           userDto= userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi
+        UserResponseDto userDto = new UserResponseDto();
+        User savedUser = userRepository.save(userSaveDto);
+        userDto = userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi
 
-            return  userDto;
-        }
+        return userDto;
     }
 
     //userService icinde createUser servisinde kullanılmak üzere kullanıcının db de varlığını kontrol eden servis
