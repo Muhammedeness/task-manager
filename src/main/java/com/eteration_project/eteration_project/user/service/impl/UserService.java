@@ -45,16 +45,6 @@ public class UserService implements IUserService {
         return userDto;
     }
 
-    //userService icinde createUser servisinde kullanılmak üzere kullanıcının db de varlığını kontrol eden servis
-    @Override
-    public Boolean isUserExistsByEmail(String mail) {
-
-        Optional<User> user = userRepository.findUserByEmail(mail);
-        if (user.isPresent()) {
-            return true;
-        }else
-            return false;
-    }
 
     @Override
     public List<UserResponseDto> listAllUsers() {
