@@ -92,4 +92,18 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "Delete from users WHERE email= ?";
         return jdbcTemplate.update(sql , email);
     }
+
+
+    //userService icinde createUser servisinde kullanılmak üzere kullanıcının db de varlığını kontrol eden servis
+    @Override
+    public Boolean isUserExistsByEmail(String mail) {
+        //todo : repository sql query'si ile true false dönecek
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql , new Object[]{mail}, Integer.class);
+
+        if (count!=0) {
+            return true;
+        } else
+            return false;
+    }
 }
