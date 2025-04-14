@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.project.services.impl;
 
 import com.eteration_project.eteration_project.project.mapper.ProjectMapper;
+import com.eteration_project.eteration_project.project.validation.ProjectValidator;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
@@ -9,6 +10,7 @@ import com.eteration_project.eteration_project.common.exception.CustomNotFoundEx
 import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.project.services.IProjectService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,35 +20,24 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectService  implements IProjectService {
 
 
     private final ProjectMapper projectMapper;
+    private  final MessageSource messageSource;
+    private final ProjectRepository projectRepository;
+    private  final ProjectValidator projectValidator;
 
-
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private ProjectRepository projectRepository;
-
-    public ProjectService(ProjectMapper projectMapper) {
-        this.projectMapper = projectMapper;
-    }
 
     @Override
     public ProjectResponseDto create(ProjectSaveDto projectSaveDto) {
 
-        Optional<Project> project = projectRepository.getProjectByName(projectSaveDto.getProjectName());
-        if (project.isPresent()) {
-          throw  new CustomDataExistsException("Bu Proje Oluşturulmuştur. Aynı isimle proje oluşturulamaz");
-        }else{
+        projectValidator.isProjectCreated(projectSaveDto.getProjectName());    //if project is alreay created this validator throw error.project.create
+        Project savedProject = projectRepository.save(projectSaveDto);
+        ProjectResponseDto projectResponseDto = projectMapper.projectToProjectDto(savedProject);
+        return projectResponseDto;
 
-            Project savedProject = projectRepository.save(projectSaveDto);
-
-            ProjectResponseDto projectResponseDto = projectMapper.projectToProjectDto(savedProject);
-            return projectResponseDto;
-        }
     }
     @Override
     public String assignUserToProject(AssignUserDto assignUserDto) {
