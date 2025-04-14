@@ -27,21 +27,11 @@ public class UserService implements IUserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 
-
     private final UserMapper userMapper;
-
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
-
-    public UserService(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
+    private final UserValidator userValidator;
+    private final MessageSource messageSource;
+    private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public UserResponseDto create(UserSaveDto userSaveDto) {
