@@ -17,4 +17,7 @@ public interface UserRepository {
 
     Integer deleteUser(String email);
 
+    Boolean isUserExistsByEmail(String email);
+
+
 }
