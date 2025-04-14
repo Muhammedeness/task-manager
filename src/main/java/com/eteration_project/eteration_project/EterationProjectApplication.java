@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.starter;
+package com.eteration_project.eteration_project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
