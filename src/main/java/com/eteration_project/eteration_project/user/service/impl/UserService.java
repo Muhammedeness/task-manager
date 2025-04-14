@@ -65,8 +65,8 @@ public class UserService implements IUserService {
     @Override
     public void remove(UserDeleteDto userDeleteDto) {
 
-       userValidator.isUserAssignedValidation(userDeleteDto);
-       userValidator.isUserExistsRemoveValidation(userDeleteDto.getEmail());
-       userRepository.deleteUser(userDeleteDto.getEmail());
+        userValidator.isUserExistsRemoveValidation(userDeleteDto.getEmail());
+        userValidator.isUserAssignedValidation(userDeleteDto);
+        userRepository.deleteUser(userDeleteDto.getEmail());
     }
 }
