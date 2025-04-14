@@ -2,7 +2,6 @@ package com.eteration_project.eteration_project.user.service.impl;
 
 
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;

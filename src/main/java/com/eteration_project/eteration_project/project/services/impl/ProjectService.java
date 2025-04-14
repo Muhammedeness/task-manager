@@ -15,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -55,5 +56,12 @@ public class ProjectService  implements IProjectService {
         return  messageSource.getMessage("success.user.removedproject" , null , Locale.getDefault());
 
 
+    }
+
+    @Override
+    public List<ProjectResponseDto> listAllProjects() {
+        List<ProjectResponseDto> list = projectRepository.getAll();
+        projectValidator.isListEmpty(list);
+        return list;
     }
 }

@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.project.repository;
 
 import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
+import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
@@ -15,6 +16,7 @@ public interface ProjectRepository {
 
     Optional<Project> getProjectByName(String projectName);
 
+    List<ProjectResponseDto> getAll();
 
     void assignUserToProject(AssignUserDto assignUserDto);
 

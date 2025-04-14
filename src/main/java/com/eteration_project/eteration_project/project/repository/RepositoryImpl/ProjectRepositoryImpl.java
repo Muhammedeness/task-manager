@@ -1,16 +1,19 @@
 package com.eteration_project.eteration_project.project.repository.RepositoryImpl;
 
 import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
+import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.mapper.rowMapper.ProjectRowMapper;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -60,6 +63,13 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public List<ProjectResponseDto> getAll() {
+
+        String sql = "SELECT * FROM projects";
+        return  jdbcTemplate.query(sql , new BeanPropertyRowMapper<>());
+    }
+
+    @Override
     public void assignUserToProject(AssignUserDto assignUserDto) {
         Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
         Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
@@ -100,11 +110,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             //project_user tablosundan bu eşleşmeyi sil
             String deleteSql = "DELETE FROM project_user WHERE user_id = ? AND project_id = ?";
             int rowsAffected = jdbcTemplate.update(deleteSql, userId, projectId);
-
-            //return rowsAffected > 0;
-
     }
-
 
     @Override
     public Integer findUserIdByDetails(String email , String firstName , String lastName) {
