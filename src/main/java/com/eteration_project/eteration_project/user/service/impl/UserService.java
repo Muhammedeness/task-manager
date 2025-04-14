@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
 
-    private static  final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 
 
