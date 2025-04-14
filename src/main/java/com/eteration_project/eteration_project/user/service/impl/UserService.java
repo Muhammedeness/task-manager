@@ -1,27 +1,28 @@
 package com.eteration_project.eteration_project.user.service.impl;
 
-import com.eteration_project.eteration_project.user.dto.UserResponseDto;
-import com.eteration_project.eteration_project.user.mapper.UserMapper;
-import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
-import com.eteration_project.eteration_project.user.dto.UserSaveDto;
+
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.common.exception.CustomDataExistsException;
-import com.eteration_project.eteration_project.user.model.User;
+import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
+import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
+import com.eteration_project.eteration_project.user.dto.UserResponseDto;
+import com.eteration_project.eteration_project.user.dto.UserSaveDto;
+import com.eteration_project.eteration_project.user.mapper.UserMapper;
+import com.eteration_project.eteration_project.user.model.User;
 import com.eteration_project.eteration_project.user.repository.UserRepository;
 import com.eteration_project.eteration_project.user.service.IUserService;
+import com.eteration_project.eteration_project.user.validation.UserValidator;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
@@ -52,7 +53,7 @@ public class UserService implements IUserService {
         List<UserResponseDto> userDtoList = new ArrayList<>();
         List<User> usersList = userRepository.getAllUsers();
         if (usersList.isEmpty()) {
-            throw new CustomNotFoundException("Kullanıcı BUlunamadı");
+            throw new CustomNotFoundException("error.user.not.found");
         }
         for (User user : usersList) {
             UserResponseDto userDto = userMapper.userToUserDto(user);
@@ -62,16 +63,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String remove(UserDeleteDto userDeleteDto) {
+    public void remove(UserDeleteDto userDeleteDto) {
 
-        if (projectRepository.isUserAssigned(userDeleteDto))
-            return  messageSource.getMessage("error.user.removed" , null , Locale.getDefault());
-
-        if (isUserExistsByEmail(userDeleteDto.getEmail())){
-
-            userRepository.deleteUser(userDeleteDto.getEmail());
-            return  messageSource.getMessage("success.user.removed" , null , Locale.getDefault());
-        }else
-            throw new CustomNotFoundException("Silinmek İstenen Kullanıcı Bulunumadı");
+       userValidator.isUserAssignedValidation(userDeleteDto);
+       userValidator.isUserExistsRemoveValidation(userDeleteDto.getEmail());
+       userRepository.deleteUser(userDeleteDto.getEmail());
     }
 }
