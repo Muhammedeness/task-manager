@@ -4,6 +4,7 @@ import com.eteration_project.eteration_project.common.exception.CustomDataExists
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
+import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.user.model.User;
 import com.eteration_project.eteration_project.user.repository.UserRepository;
@@ -32,9 +33,9 @@ public class UserValidator {
         }
     }
 
-    public void isUserAssignedValidation(UserDeleteDto userDeleteDto){
+    public void isUserAssignedValidation(AssignUserDto assignUserDto){
 
-        if (projectRepository.isUserAssigned(userDeleteDto)) {
+        if (projectRepository.isUserAssigned(assignUserDto)) {
             throw new CustomRuntimeException("error.user.removed");
         }
     }

@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.project.services.impl;
 
+import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.mapper.ProjectMapper;
 import com.eteration_project.eteration_project.project.validation.ProjectValidator;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
@@ -42,18 +43,10 @@ public class ProjectService  implements IProjectService {
     @Override
     public String assignUserToProject(AssignUserDto assignUserDto) {
 
-        if (projectRepository.isUserAssignedToProject(assignUserDto)) {
-            return  messageSource.getMessage("user.assigned" , null , Locale.getDefault());
-        }
-
-        try {
+            projectValidator.isUserAssignedToProjectValidation(assignUserDto);
             projectRepository.assignUserToProject(assignUserDto);
             return  messageSource.getMessage("success.user.assign" , null , Locale.getDefault());
-        }
-        catch (EmptyResultDataAccessException e)
-        {
-            throw  new CustomNotFoundException("Kullanıcı Bulunamadı");
-        }
+
     }
 
     @Override

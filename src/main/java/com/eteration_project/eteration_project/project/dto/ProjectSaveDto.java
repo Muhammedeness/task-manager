@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ProjectSaveDto {
 
     @NotBlank(message = "ProjectName alanı boş bırakılamaz")
-    @Size(min = 2  , max = 25 , message = "Fazla veya az karakter kullanıldı")
+    @Size(min = 2  , max =  100, message = "Fazla veya az karakter kullanıldı")
     private  String projectName;
 
     @Size(min = 0  , max = 150 , message = "Fazla veya az karakter kullanıldı")

@@ -2,9 +2,11 @@ package com.eteration_project.eteration_project.user.mapper.rowMapper;
 
 import com.eteration_project.eteration_project.user.model.User;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+@Component
 public class UserRowMapper implements RowMapper<User> {
 
     @Override

@@ -18,13 +18,19 @@ public interface ProjectRepository {
 
     void assignUserToProject(AssignUserDto assignUserDto);
 
-    Boolean isUserAssigned(UserDeleteDto userDeleteDto);
+    Boolean isUserAssigned(AssignUserDto assignUserDto);
 
     Boolean isUserAssignedToProject(AssignUserDto assignUserDto);
 
     Boolean unAssignUserFromProject(AssignUserDto assignUserDto);
 
-    List<ProjectDetailsDto> getProjectDetails(String projectName);
+    //List<ProjectDetailsDto> getProjectDetails(String projectName);
+
+    Integer findUserIdByDetails(String mail , String firstname , String lastname);
+
+    Integer findProjectIdByName(String projectName);
+
+
 
 
 }

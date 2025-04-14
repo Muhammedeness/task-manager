@@ -1,17 +1,16 @@
 package com.eteration_project.eteration_project.project.repository.RepositoryImpl;
 
-import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
+import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.mapper.rowMapper.ProjectRowMapper;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
-import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Repository
@@ -62,54 +61,34 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public void assignUserToProject(AssignUserDto assignUserDto) {
-        String findUserSql = "SELECT id FROM users WHERE email = ?";
-        Integer userId = jdbcTemplate.queryForObject(findUserSql, new Object[]{assignUserDto.getEmail()}, Integer.class);
-
-        String findProjectSql = "SELECT id FROM projects WHERE project_name = ?";
-        Integer projectId = jdbcTemplate.queryForObject(findProjectSql, new Object[]{assignUserDto.getProjectName()}, Integer.class);
+        Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
+        Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
 
         String assignSql = "INSERT INTO project_user (project_id, user_id) VALUES (?, ?)";
         jdbcTemplate.update(assignSql, projectId, userId);
     }
 
     @Override
-    public Boolean isUserAssigned(UserDeleteDto userDeleteDto) {
-        try {
-            // Kullanıcının ID'sini al
-            String userSql = "SELECT id FROM users WHERE email = ?";
-            Integer userId = jdbcTemplate.queryForObject(userSql, new Object[]{userDeleteDto.getEmail()}, Integer.class);
+    public Boolean isUserAssigned(AssignUserDto assignUserDto) {
 
-            // Kullanıcının herhangi bir projeye atanıp atanmadığını kontrol et
-            String checkSql = "SELECT COUNT(*) FROM project_user WHERE user_id = ?";
-            Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{userId}, Integer.class);
-
-            return count != null && count > 0;
-        } catch (EmptyResultDataAccessException e) {
-            // Kullanıcı bulunamazsa, zaten hiçbir projeye atanmış olamaz
-            return false;
-        }
+        Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
+        String checkSql = "SELECT COUNT(*) FROM project_user WHERE user_id = ?";
+        Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{userId}, Integer.class);
+        return count > 0;
     }
 
     @Override
     public Boolean isUserAssignedToProject(AssignUserDto assignUserDto) {
-        try {
-            // Kullanıcının ID'sini al
-            String userSql = "SELECT id FROM users WHERE email = ?";
-            Integer userId = jdbcTemplate.queryForObject(userSql, new Object[]{assignUserDto.getEmail()}, Integer.class);
 
-            // Kullanıcının herhangi bir projeye atanıp atanmadığını kontrol et
-            String projectSql = "SELECT id FROM projects WHERE project_name = ?";
-            Integer projectId = jdbcTemplate.queryForObject(projectSql, new Object[]{assignUserDto.getProjectName()}, Integer.class);
-
-            String checkSql = "SELECT COUNT(*) FROM project_user WHERE user_id = ? AND project_id = ?";
-            Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{userId, projectId}, Integer.class);
+        Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
+        Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
 
 
-            return count>0;
-        } catch (EmptyResultDataAccessException e) {
-            // Kullanıcı bulunamazsa, zaten hiçbir projeye atanmış olamaz
-            return false;
-        }
+        String sql = "SELECT COUNT(*) FROM project_user WHERE user_id = ? AND project_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{userId, projectId}, Integer.class);
+
+        return count > 0;
+
     }
 
     @Override
@@ -134,11 +113,30 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
-    @Override
-    public List<ProjectDetailsDto> getProjectDetails(String projectName) {
 
-        return List.of();
+    @Override
+    public Integer findUserIdByDetails(String email , String firstName , String lastName) {
+        // Kullanıcının ID'sini al
+        String userSql = "SELECT id FROM users WHERE email = ? AND first_name = ? AND last_name = ?";
+        try {
+            Integer userId = jdbcTemplate.queryForObject(userSql, new Object[]{email,
+                    firstName,
+                    lastName}, Integer.class);
+            return userId;
+        }catch (EmptyResultDataAccessException e){
+            throw new CustomRuntimeException("error.user.not.found");
+        }
     }
 
+    @Override
+    public Integer findProjectIdByName(String projectName) {
+        String projectSql = "SELECT id FROM projects WHERE project_name = ?";
+        try {
+            Integer projectId = jdbcTemplate.queryForObject(projectSql, new Object[]{projectName}, Integer.class);
+            return  projectId;
 
+        }catch (EmptyResultDataAccessException e){
+            throw new CustomRuntimeException("error.project.not.found");
+        }
+    }
 }

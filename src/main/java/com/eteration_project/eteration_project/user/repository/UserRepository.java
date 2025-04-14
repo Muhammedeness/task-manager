@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.user.repository;
 
+import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.user.dto.UserSaveDto;
 import com.eteration_project.eteration_project.user.model.User;
 
@@ -15,7 +16,7 @@ public interface UserRepository {
 
     List<User> getAllUsers();
 
-    Integer deleteUser(String email);
+    Integer deleteUser(UserDeleteDto userDeleteDto);
 
     Boolean isUserExistsByEmail(String email);
 

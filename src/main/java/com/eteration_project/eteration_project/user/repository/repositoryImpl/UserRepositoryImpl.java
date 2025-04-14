@@ -1,10 +1,13 @@
 package com.eteration_project.eteration_project.user.repository.repositoryImpl;
 
+import com.eteration_project.eteration_project.project.repository.ProjectRepository;
+import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.user.dto.UserSaveDto;
+import com.eteration_project.eteration_project.user.mapper.UserMapper;
 import com.eteration_project.eteration_project.user.model.User;
 import com.eteration_project.eteration_project.user.mapper.rowMapper.UserRowMapper;
 import com.eteration_project.eteration_project.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,19 +19,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
+    private final ProjectRepository projectRepository;
     private final JdbcTemplate jdbcTemplate;
     private final UserRowMapper userRowMapper;
+    private final UserMapper userMapper;
 
 
-
-
-    @Autowired
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.userRowMapper = new UserRowMapper();
-    }
     @Override
     public User save(UserSaveDto userSaveDto) {
 
@@ -87,10 +86,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Integer deleteUser(String email) {
+    public Integer deleteUser(UserDeleteDto userDeleteDto) {
 
-        String sql = "Delete from users WHERE email= ?";
-        return jdbcTemplate.update(sql , email);
+
+        Integer userId = projectRepository.findUserIdByDetails(userDeleteDto.getEmail() , userDeleteDto.getFirstName() , userDeleteDto.getLastName());
+        String sql = "Delete from users WHERE id= ?";
+        return jdbcTemplate.update(sql , userId);
     }
 
 

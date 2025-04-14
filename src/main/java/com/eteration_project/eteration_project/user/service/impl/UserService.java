@@ -4,6 +4,7 @@ package com.eteration_project.eteration_project.user.service.impl;
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
+import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.user.dto.UserResponseDto;
 import com.eteration_project.eteration_project.user.dto.UserSaveDto;
@@ -65,8 +66,10 @@ public class UserService implements IUserService {
     @Override
     public void remove(UserDeleteDto userDeleteDto) {
 
+        AssignUserDto assignUserDto= userMapper.userDeleteDtoToassignUserDto(userDeleteDto);
+
         userValidator.isUserExistsRemoveValidation(userDeleteDto.getEmail());
-        userValidator.isUserAssignedValidation(userDeleteDto);
-        userRepository.deleteUser(userDeleteDto.getEmail());
+        userValidator.isUserAssignedValidation(assignUserDto);
+        userRepository.deleteUser(userDeleteDto);
     }
 }
