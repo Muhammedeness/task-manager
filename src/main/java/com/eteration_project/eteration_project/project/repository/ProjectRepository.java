@@ -36,6 +36,8 @@ public interface ProjectRepository {
 
     Boolean isProjecthaveUsers(Integer projectId);
 
+    List<ProjectDetailsDto> getUsersByProjectId(Integer projectId);
+
 
 
 }

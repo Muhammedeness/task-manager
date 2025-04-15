@@ -11,7 +11,11 @@ public class ProjectDetailsDto {
 
     private String description;
 
-    private List<String> assignedUsers;
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
 
 
 }

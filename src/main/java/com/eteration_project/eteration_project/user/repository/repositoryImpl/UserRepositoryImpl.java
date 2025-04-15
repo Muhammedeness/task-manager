@@ -1,7 +1,9 @@
 package com.eteration_project.eteration_project.user.repository.repositoryImpl;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
+import com.eteration_project.eteration_project.user.dto.UserResponseDto;
 import com.eteration_project.eteration_project.user.dto.UserSaveDto;
 import com.eteration_project.eteration_project.user.mapper.UserMapper;
 import com.eteration_project.eteration_project.user.model.User;
@@ -107,4 +109,7 @@ public class UserRepositoryImpl implements UserRepository {
         } else
             return false;
     }
+
+
+
 }

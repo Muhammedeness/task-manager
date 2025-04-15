@@ -1,6 +1,9 @@
 package com.eteration_project.eteration_project.user.repository;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
+import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
+import com.eteration_project.eteration_project.user.dto.UserResponseDto;
 import com.eteration_project.eteration_project.user.dto.UserSaveDto;
 import com.eteration_project.eteration_project.user.model.User;
 
@@ -19,6 +22,8 @@ public interface UserRepository {
     Integer deleteUser(UserDeleteDto userDeleteDto);
 
     Boolean isUserExistsByEmail(String email);
+
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.project.repository.RepositoryImpl;
 
 import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.mapper.rowMapper.ProjectRowMapper;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
@@ -152,5 +153,25 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Integer.class);
 
         return count > 0;//eğer 0 dan farklıysa bu projede atanmış kullanıcı var demektir onun için false döndürür
+    }
+
+    @Override
+    public List<ProjectDetailsDto> getUsersByProjectId(Integer projectId) {
+        String sql = "SELECT u.first_name, u.last_name, u.email, " +
+                "p.project_name, p.description " +
+                "FROM project_user pu " +
+                "JOIN users u ON pu.user_id = u.id " +
+                "JOIN projects p ON pu.project_id = p.id " +
+                "WHERE pu.project_id = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{projectId}, (rs, rowNum) -> {
+            ProjectDetailsDto projectDetailsDto = new ProjectDetailsDto();
+            projectDetailsDto.setProjectName(rs.getString("project_name"));
+            projectDetailsDto.setDescription(rs.getString("description"));
+            projectDetailsDto.setFirstName(rs.getString("first_name"));
+            projectDetailsDto.setLastName(rs.getString("last_name"));
+            projectDetailsDto.setEmail(rs.getString("email"));
+            return projectDetailsDto;
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.project.services;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
@@ -18,4 +19,6 @@ public interface IProjectService {
     List<ProjectResponseDto> listAllProjects();
 
     void delete(String projectName);
+
+    List<ProjectDetailsDto> getProjectUserInfos(String projectName);
 }

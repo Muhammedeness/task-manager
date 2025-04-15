@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.project.services.impl;
 
+import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.mapper.ProjectMapper;
 import com.eteration_project.eteration_project.project.validation.ProjectValidator;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
@@ -70,5 +71,15 @@ public class ProjectService  implements IProjectService {
         projectValidator.isProjectHaveUsersValidation(projectId);
         projectRepository.delete(projectId);
 
+    }
+
+    @Override
+    public List<ProjectDetailsDto> getProjectUserInfos(String projectName) {
+
+        Integer projectId = projectRepository.findProjectIdByName(projectName);
+        List<ProjectDetailsDto> list = projectRepository.getUsersByProjectId(projectId);
+
+
+        return list;
     }
 }
