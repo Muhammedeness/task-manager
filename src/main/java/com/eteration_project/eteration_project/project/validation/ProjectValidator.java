@@ -49,4 +49,10 @@ public class ProjectValidator {
         }
     }
 
+    public void isProjectHaveUsersValidation(Integer projectId){
+        if (projectRepository.isProjecthaveUsers(projectId)) {
+            throw new CustomDataExistsException("error.project.delete");
+        }
+    }
+
 }

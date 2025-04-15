@@ -137,4 +137,20 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             throw new CustomRuntimeException("error.project.not.found");
         }
     }
+
+    @Override
+    public void delete(Integer projectId) {
+
+        String sql = "DELETE FROM projects WHERE id = ?";
+        jdbcTemplate.update(sql,projectId);
+    }
+
+    @Override
+    public Boolean isProjecthaveUsers(Integer projectId) {
+
+        String sql = "SELECT COUNT(*) FROM project_user WHERE project_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Integer.class);
+
+        return count > 0;//eğer 0 dan farklıysa bu projede atanmış kullanıcı var demektir onun için false döndürür
+    }
 }

@@ -17,4 +17,5 @@ public interface IProjectService {
 
     List<ProjectResponseDto> listAllProjects();
 
+    void delete(String projectName);
 }

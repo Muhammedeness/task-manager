@@ -32,6 +32,9 @@ public interface ProjectRepository {
 
     Integer findProjectIdByName(String projectName);
 
+    void delete(Integer projectId);
+
+    Boolean isProjecthaveUsers(Integer projectId);
 
 
 

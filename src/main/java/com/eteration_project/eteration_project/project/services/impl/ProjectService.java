@@ -62,4 +62,13 @@ public class ProjectService  implements IProjectService {
         projectValidator.isListEmpty(list);
         return list;
     }
+
+    @Override
+    public void delete(String projectName) {
+
+        Integer projectId = projectRepository.findProjectIdByName(projectName);
+        projectValidator.isProjectHaveUsersValidation(projectId);
+        projectRepository.delete(projectId);
+
+    }
 }

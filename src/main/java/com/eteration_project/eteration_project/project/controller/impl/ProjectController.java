@@ -5,19 +5,23 @@ import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.project.services.IProjectService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/project")
+@RequiredArgsConstructor
 public class ProjectController{
 
 
-    @Autowired
-    private IProjectService projectService;
+    private final MessageSource messageSource;
+    private final IProjectService projectService;
 
     @PostMapping(path = "/create")
     public ProjectResponseDto create(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
@@ -37,5 +41,13 @@ public class ProjectController{
     @GetMapping(path = "/list")
     public ResponseEntity<List<ProjectResponseDto>> listAllProjects(){
         return ResponseEntity.ok(projectService.listAllProjects());
+    }
+
+    @DeleteMapping(path = "/delete/{projectName}")
+    public ResponseEntity<String> deleteProject(@PathVariable String projectName){
+
+        projectService.delete(projectName);
+        String responseMsg = messageSource.getMessage("success.project.delete" , null , Locale.getDefault());
+        return ResponseEntity.ok(responseMsg);
     }
 }
