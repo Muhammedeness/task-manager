@@ -1,6 +1,5 @@
 package com.eteration_project.eteration_project.project.controller.impl;
 
-import com.eteration_project.eteration_project.project.controller.IProjectController;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
@@ -14,26 +13,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/project")
-public class ProjectController /* implements IProjectController*/ {
+public class ProjectController{
 
 
     @Autowired
     private IProjectService projectService;
 
     @PostMapping(path = "/create")
-    //@Override
     public ProjectResponseDto create(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
         return projectService.create(projectSaveDto) ;
     }
 
     @PostMapping(path = "/assign")
-    //@Override
     public String assignUserToProject(@RequestBody AssignUserDto assignUserDto) {
         return  projectService.assignUserToProject(assignUserDto) ;
     }
 
     @DeleteMapping("/unassign")
-    //@Override
     public String unAssignUserFromProject(@RequestBody AssignUserDto assignUserDto) {
         return projectService.unAssignUserFromProject(assignUserDto);
     }
