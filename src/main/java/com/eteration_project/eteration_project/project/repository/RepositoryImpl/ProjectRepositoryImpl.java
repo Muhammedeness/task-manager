@@ -47,17 +47,17 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Optional<Project> getProjectByName(String projectName) {
+    public Boolean isProjectByName(String projectName) {
 
         try {
 
-            String sql = "SELECT * FROM projects WHERE project_name = ?";
-            Project project=  jdbcTemplate.queryForObject(sql , new Object[]{projectName} , new ProjectRowMapper());
-            return Optional.ofNullable(project);
+            String sql = "SELECT COUNT(*) FROM projects WHERE project_name = ?";
+            Integer project=  jdbcTemplate.queryForObject(sql , new Object[]{projectName} , Integer.class);
+            return project > 0;
 
         }catch (EmptyResultDataAccessException e){
 
-            return Optional.empty();
+            return false;
 
         }
     }
@@ -66,7 +66,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public List<ProjectResponseDto> getAll() {
 
         String sql = "SELECT * FROM projects";
-        return  jdbcTemplate.query(sql , new BeanPropertyRowMapper<>());
+        return  jdbcTemplate.query(sql , new BeanPropertyRowMapper<>(ProjectResponseDto.class));
     }
 
     @Override

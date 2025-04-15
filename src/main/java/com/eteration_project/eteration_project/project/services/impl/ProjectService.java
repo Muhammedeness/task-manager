@@ -5,14 +5,12 @@ import com.eteration_project.eteration_project.project.validation.ProjectValidat
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
-import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.project.services.IProjectService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.MessageSource;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

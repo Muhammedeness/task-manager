@@ -14,7 +14,7 @@ public interface ProjectRepository {
 
     Project save(ProjectSaveDto projectSaveDto);
 
-    Optional<Project> getProjectByName(String projectName);
+    Boolean isProjectByName(String projectName);
 
     List<ProjectResponseDto> getAll();
 

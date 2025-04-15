@@ -24,8 +24,8 @@ public class ProjectValidator {
 
 //        Optional<Project> project = projectRepository.getProjectByName(projectName);
 
-        Integer projectId = projectRepository.findProjectIdByName(projectName);
-        if (projectId !=0 ) {
+        Boolean project = projectRepository.isProjectByName(projectName);
+        if (project) {
             throw  new CustomDataExistsException("error.project.create");
         }
     }

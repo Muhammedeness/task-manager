@@ -7,31 +7,39 @@ import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.project.services.IProjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/project")
-public class ProjectController  implements IProjectController {
+public class ProjectController /* implements IProjectController*/ {
 
 
     @Autowired
-    private IProjectService iProjectService;
+    private IProjectService projectService;
 
     @PostMapping(path = "/create")
-    @Override
+    //@Override
     public ProjectResponseDto create(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
-        return iProjectService.create(projectSaveDto) ;
+        return projectService.create(projectSaveDto) ;
     }
 
     @PostMapping(path = "/assign")
-    @Override
+    //@Override
     public String assignUserToProject(@RequestBody AssignUserDto assignUserDto) {
-        return  iProjectService.assignUserToProject(assignUserDto) ;
+        return  projectService.assignUserToProject(assignUserDto) ;
     }
 
     @DeleteMapping("/unassign")
-    @Override
+    //@Override
     public String unAssignUserFromProject(@RequestBody AssignUserDto assignUserDto) {
-        return iProjectService.unAssignUserFromProject(assignUserDto);
+        return projectService.unAssignUserFromProject(assignUserDto);
+    }
+
+    @GetMapping(path = "/list")
+    public ResponseEntity<List<ProjectResponseDto>> listAllProjects(){
+        return ResponseEntity.ok(projectService.listAllProjects());
     }
 }
