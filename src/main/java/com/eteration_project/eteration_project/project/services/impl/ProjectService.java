@@ -74,12 +74,12 @@ public class ProjectService  implements IProjectService {
     }
 
     @Override
-    public List<ProjectDetailsDto> getProjectUserInfos(String projectName) {
+    public ProjectDetailsDto getProjectUserInfos(String projectName) {
 
         Integer projectId = projectRepository.findProjectIdByName(projectName);
-        List<ProjectDetailsDto> list = projectRepository.getUsersByProjectId(projectId);
+        ProjectDetailsDto projectDetailsDto = projectRepository.getUsersByProjectId(projectId);
 
 
-        return list;
+        return projectDetailsDto;
     }
 }

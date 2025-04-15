@@ -54,7 +54,7 @@ public class ProjectController{
     }
 
     @GetMapping(path = "/project-info/{projectName}")
-    public ResponseEntity<List<ProjectDetailsDto>> getProjectUserInfos(@PathVariable String projectName){
+    public ResponseEntity<ProjectDetailsDto> getProjectUserInfos(@PathVariable String projectName){
         return  ResponseEntity.ok(projectService.getProjectUserInfos(projectName));
     }
 

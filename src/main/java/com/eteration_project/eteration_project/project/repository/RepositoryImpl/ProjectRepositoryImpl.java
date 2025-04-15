@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.project.repository.RepositoryImpl;
 
+import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
 import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
@@ -8,6 +9,7 @@ import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.project.model.Project;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
+import com.eteration_project.eteration_project.user.dto.UserResponseDto;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +50,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Boolean isProjectByName(String projectName) {
+    public Boolean findProjectByName(String projectName) {
 
         try {
 
@@ -156,22 +158,40 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public List<ProjectDetailsDto> getUsersByProjectId(Integer projectId) {
-        String sql = "SELECT u.first_name, u.last_name, u.email, " +
-                "p.project_name, p.description " +
+    public ProjectDetailsDto getUsersByProjectId(Integer projectId) {
+
+        //Proje bilgisi
+        String projectSql = "SELECT project_name, description FROM projects WHERE id = ?";
+        ProjectDetailsDto projectDetailsDto = jdbcTemplate.queryForObject(projectSql, new Object[]{projectId}, (rs, rowNum) -> {
+            ProjectDetailsDto dto = new ProjectDetailsDto();
+            dto.setProjectName(rs.getString("project_name"));
+            dto.setDescription(rs.getString("description"));
+           return dto;
+        });
+
+        //Kullanıcı listesi
+        String userSql = "SELECT u.first_name, u.last_name, u.email " +
                 "FROM project_user pu " +
                 "JOIN users u ON pu.user_id = u.id " +
-                "JOIN projects p ON pu.project_id = p.id " +
                 "WHERE pu.project_id = ?";
 
-        return jdbcTemplate.query(sql, new Object[]{projectId}, (rs, rowNum) -> {
-            ProjectDetailsDto projectDetailsDto = new ProjectDetailsDto();
-            projectDetailsDto.setProjectName(rs.getString("project_name"));
-            projectDetailsDto.setDescription(rs.getString("description"));
-            projectDetailsDto.setFirstName(rs.getString("first_name"));
-            projectDetailsDto.setLastName(rs.getString("last_name"));
-            projectDetailsDto.setEmail(rs.getString("email"));
-            return projectDetailsDto;
+        List<UserResponseDto> users = jdbcTemplate.query(userSql, new Object[]{projectId}, (rs, rowNum) -> {
+            UserResponseDto userResponseDto = new UserResponseDto();
+            userResponseDto.setFirstName(rs.getString("first_name"));
+            userResponseDto.setLastName(rs.getString("last_name"));
+            userResponseDto.setEmail(rs.getString("email"));
+            return userResponseDto;
         });
+
+        //eger users listesi boş ise not found fırlat
+        if (users.isEmpty()) {
+
+            throw new CustomNotFoundException("error.assigned.user.not.found");
+        }
+
+        //Proje ve user detaylarını döndür
+        projectDetailsDto.setAssignedUsers(users);
+        return projectDetailsDto;
+
     }
 }

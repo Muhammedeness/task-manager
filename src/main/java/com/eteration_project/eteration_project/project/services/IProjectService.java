@@ -20,5 +20,5 @@ public interface IProjectService {
 
     void delete(String projectName);
 
-    List<ProjectDetailsDto> getProjectUserInfos(String projectName);
+    ProjectDetailsDto getProjectUserInfos(String projectName);
 }
