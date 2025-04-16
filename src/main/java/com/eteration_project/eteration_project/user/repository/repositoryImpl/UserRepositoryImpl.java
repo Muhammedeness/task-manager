@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.user.repository.repositoryImpl;
 
+import com.eteration_project.eteration_project.common.config.PasswordEncoderConfig;
 import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
@@ -14,6 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -28,12 +30,17 @@ public class UserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final UserRowMapper userRowMapper;
     private final UserMapper userMapper;
+    private final PasswordEncoderConfig passwordEncoderConfig;
 
 
     @Override
     public User save(UserSaveDto userSaveDto) {
 
-        String sql = "INSERT INTO users (first_name, last_name, birth_date, email) VALUES (?, ?, ?, ?)";
+        //db ye encode edilmiş password kaydedilir.
+        //düz string hali ile şifre kaydedilmez
+        String encodedPassword = passwordEncoderConfig.passwordEncoder().encode(userSaveDto.getPassword());
+
+        String sql = "INSERT INTO users (first_name, last_name, birth_date, email , password) VALUES (?, ?, ?, ? , ?)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -44,6 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
             ps.setString(2, userSaveDto.getLastName());
             ps.setDate(3, userSaveDto.getBirthDate() != null ? new java.sql.Date(userSaveDto.getBirthDate().getTime()) : null);
             ps.setString(4, userSaveDto.getEmail());
+            ps.setString(5, encodedPassword);
             return ps;
         }, keyHolder);
 
@@ -58,23 +66,21 @@ public class UserRepositoryImpl implements UserRepository {
         user.setLastName(userSaveDto.getLastName());
         user.setBirthDate(userSaveDto.getBirthDate());
         user.setEmail(userSaveDto.getEmail());
+        user.setPassword(encodedPassword);
 
         return user;
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-     try {
-         String sql = "SELECT * FROM users WHERE email = ?";
-         User user= jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
-         return Optional.ofNullable(user);
-     }
-     catch (EmptyResultDataAccessException e)
-     {
-         return  Optional.empty();
-         //throw new RuntimeException("EnesException occurred.", e);
-     }
-
+    public User findUserByEmail(String email) {
+        try {
+            String sql = "SELECT * FROM users WHERE email = ?";
+            User user = jdbcTemplate.queryForObject(sql, new Object[]{email}, new UserRowMapper());
+            return user;
+        }catch (EmptyResultDataAccessException e)
+        {
+            throw  new UsernameNotFoundException("User not found with email :" + email);
+        }
     }
 
     @Override

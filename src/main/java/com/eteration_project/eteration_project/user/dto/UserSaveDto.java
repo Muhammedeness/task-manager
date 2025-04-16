@@ -32,4 +32,8 @@ public class UserSaveDto {
             flags = Pattern.Flag.CASE_INSENSITIVE , message = "Geçerli Bİr Mail Adresi Giriniz")
     private String email;
 
+    @NotBlank(message = "İsim alanı boş bırakılamaz")
+    @Size(min = 4   , message = "Minimum 4  karakter olmalı")
+    private String password;
+
 }
