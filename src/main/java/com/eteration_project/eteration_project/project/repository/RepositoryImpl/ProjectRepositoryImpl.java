@@ -50,17 +50,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Boolean findProjectByName(String projectName) {
-
         try {
-
             String sql = "SELECT COUNT(*) FROM projects WHERE project_name = ?";
             Integer project=  jdbcTemplate.queryForObject(sql , new Object[]{projectName} , Integer.class);
             return project > 0;
-
         }catch (EmptyResultDataAccessException e){
-
             return false;
-
         }
     }
 
@@ -73,9 +68,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public void assignUserToProject(AssignUserDto assignUserDto) {
+
         Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
         Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
-
         String assignSql = "INSERT INTO project_user (project_id, user_id) VALUES (?, ?)";
         jdbcTemplate.update(assignSql, projectId, userId);
     }
@@ -94,13 +89,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
         Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
-
-
         String sql = "SELECT COUNT(*) FROM project_user WHERE user_id = ? AND project_id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{userId, projectId}, Integer.class);
-
         return count > 0;
-
     }
 
     @Override
@@ -108,7 +99,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
             Integer userId = this.findUserIdByDetails(assignUserDto.getEmail() , assignUserDto.getFirstName() , assignUserDto.getLastName());
             Integer projectId = this.findProjectIdByName(assignUserDto.getProjectName());
-
             //project_user tablosundan bu eşleşmeyi sil
             String deleteSql = "DELETE FROM project_user WHERE user_id = ? AND project_id = ?";
             int rowsAffected = jdbcTemplate.update(deleteSql, userId, projectId);
@@ -152,13 +142,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         String sql = "SELECT COUNT(*) FROM project_user WHERE project_id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Integer.class);
-
         return count > 0;//eğer 0 dan farklıysa bu projede atanmış kullanıcı var demektir onun için false döndürür
     }
 
     @Override
     public ProjectDetailsDto getUsersByProjectId(Integer projectId) {
-
         //Proje bilgisi
         String projectSql = "SELECT project_name, description FROM projects WHERE id = ?";
         ProjectDetailsDto projectDetailsDto = jdbcTemplate.queryForObject(projectSql, new Object[]{projectId}, (rs, rowNum) -> {
@@ -173,7 +161,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 "FROM project_user pu " +
                 "JOIN users u ON pu.user_id = u.id " +
                 "WHERE pu.project_id = ?";
-
         List<UserResponseDto> users = jdbcTemplate.query(userSql, new Object[]{projectId}, (rs, rowNum) -> {
             UserResponseDto userResponseDto = new UserResponseDto();
             userResponseDto.setFirstName(rs.getString("first_name"));
@@ -181,16 +168,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             userResponseDto.setEmail(rs.getString("email"));
             return userResponseDto;
         });
-
         //eger users listesi boş ise not found fırlat
         if (users.isEmpty()) {
-
             throw new CustomNotFoundException("error.assigned.user.not.found");
         }
-
         //Proje ve user detaylarını döndür
         projectDetailsDto.setAssignedUsers(users);
         return projectDetailsDto;
-
     }
 }
