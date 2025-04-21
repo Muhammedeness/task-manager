@@ -26,8 +26,8 @@ public class CustomUserDetailService implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
+                user.getEmail(), //burası dogru email dönüyor
+                user.getPassword(), //null döndürüyor
                 Collections.singletonList(new SimpleGrantedAuthority("USER"))
         );
     }
