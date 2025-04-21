@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication", description = "Authentication APIs")
 public class AuthController {
 
-    private final LoginService loginService;
+    private final AuthService loginService;
 
     @PostMapping("/login")
     @Operation(summary = "Login with email and password")

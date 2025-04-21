@@ -1,9 +1,8 @@
 package com.eteration_project.eteration_project.user.service.impl;
 
 
-import com.eteration_project.eteration_project.common.config.EncoderConfig;
+import com.eteration_project.eteration_project.common.config.SecurityConfig;
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.user.dto.UserDeleteDto;
 import com.eteration_project.eteration_project.user.dto.UserResponseDto;
@@ -33,7 +32,7 @@ public class UserService implements IUserService {
     private final UserValidator userValidator;
     private final MessageSource messageSource;
     private final UserRepository userRepository;
-    private final EncoderConfig encoderConfig;
+    private final SecurityConfig securityConfig;
 
     @Override
     public UserResponseDto create(UserSaveDto userSaveDto) {
@@ -41,7 +40,7 @@ public class UserService implements IUserService {
         userValidator.isUserExistsCreateValidation(userSaveDto.getEmail());    //kullanıcı kontrolünü validator aracılıgı ile yaptık
 
         UserResponseDto userDto = new UserResponseDto();
-        String hashedPassword = encoderConfig.passwordEncoder().encode(userSaveDto.getPassword());
+        String hashedPassword = securityConfig.passwordEncoder().encode(userSaveDto.getPassword());
         userSaveDto.setPassword(hashedPassword);
         User savedUser = userRepository.save(userSaveDto);
         userDto = userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi

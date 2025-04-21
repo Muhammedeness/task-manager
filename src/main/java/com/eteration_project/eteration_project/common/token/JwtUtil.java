@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.common.Token;
+package com.eteration_project.eteration_project.common.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -24,10 +24,10 @@ public class JwtUtil {
     // Method to generate token
     public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(email)  // Set the email as the subject of the token
-                .setIssuedAt(new Date())  // Set the issue date
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))  // Set expiration time
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // Sign with HMAC SHA-256 algorithm and the secret key
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 

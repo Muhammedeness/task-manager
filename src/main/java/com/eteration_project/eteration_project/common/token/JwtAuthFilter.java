@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.common.Token;
+package com.eteration_project.eteration_project.common.token;
 
 import com.eteration_project.eteration_project.user.service.impl.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
@@ -26,6 +26,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        // Login endpoint'ine gelen istekleri filtrelemeden devam ettir
+        String path = request.getServletPath();
+        if (path.equals("/api/auth/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -47,5 +55,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }
 
