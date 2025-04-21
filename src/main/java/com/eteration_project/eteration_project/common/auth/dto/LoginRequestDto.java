@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.common.login.dto;
+package com.eteration_project.eteration_project.common.auth.dto;
 
 import lombok.Data;
 

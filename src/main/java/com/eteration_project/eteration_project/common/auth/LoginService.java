@@ -1,8 +1,8 @@
-package com.eteration_project.eteration_project.common.login;
+package com.eteration_project.eteration_project.common.auth;
 
 import com.eteration_project.eteration_project.common.Token.JwtUtil;
-import com.eteration_project.eteration_project.common.login.dto.LoginRequestDto;
-import com.eteration_project.eteration_project.common.login.dto.LoginResponseDto;
+import com.eteration_project.eteration_project.common.auth.dto.LoginRequestDto;
+import com.eteration_project.eteration_project.common.auth.dto.LoginResponseDto;
 import com.eteration_project.eteration_project.user.service.impl.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +30,9 @@ public class LoginService {
             );
 
             UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
+            System.out.println(loginRequest.getEmail());
             String token = jwtUtil.generateToken(userDetails.getUsername());
+            System.out.println(token);
 
             return new LoginResponseDto(token);
         } catch (AuthenticationException e) {
