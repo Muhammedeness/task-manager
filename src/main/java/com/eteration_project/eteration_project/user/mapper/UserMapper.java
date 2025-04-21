@@ -6,6 +6,8 @@ import com.eteration_project.eteration_project.user.dto.UserResponseDto;
 import com.eteration_project.eteration_project.user.model.User;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -13,6 +15,8 @@ public interface UserMapper {
     //@Mapping(source = "firstName" , target = "firstName")
     //tüm field lar aynı olduğu için mapping ile source ve target eklemeye gerek kalmadı
     UserResponseDto userToUserDto(User user);
+
+    List<UserResponseDto> entityToDtoList(List<User> user);
 
 
     User  userDtoToUser(UserResponseDto userDto);

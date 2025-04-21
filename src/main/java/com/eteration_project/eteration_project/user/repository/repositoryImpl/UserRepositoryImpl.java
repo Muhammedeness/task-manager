@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(UserSaveDto userSaveDto) {
 
-        String sql = "INSERT INTO users (first_name, last_name, birth_date, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (first_name, last_name, birth_date, email , password) VALUES (?, ?, ?, ? , ?)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -44,6 +44,7 @@ public class UserRepositoryImpl implements UserRepository {
             ps.setString(2, userSaveDto.getLastName());
             ps.setDate(3, userSaveDto.getBirthDate() != null ? new java.sql.Date(userSaveDto.getBirthDate().getTime()) : null);
             ps.setString(4, userSaveDto.getEmail());
+            ps.setString(5, userSaveDto.getPassword());
             return ps;
         }, keyHolder);
 
@@ -58,21 +59,22 @@ public class UserRepositoryImpl implements UserRepository {
         user.setLastName(userSaveDto.getLastName());
         user.setBirthDate(userSaveDto.getBirthDate());
         user.setEmail(userSaveDto.getEmail());
+        user.setPassword(userSaveDto.getPassword());
+
 
         return user;
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
      try {
          String sql = "SELECT * FROM users WHERE email = ?";
          User user= jdbcTemplate.queryForObject(sql , new Object[]{email} , new UserRowMapper());
-         return Optional.ofNullable(user);
+         return user;
      }
      catch (EmptyResultDataAccessException e)
      {
-         return  Optional.empty();
-         //throw new RuntimeException("EnesException occurred.", e);
+         return null;
      }
 
     }

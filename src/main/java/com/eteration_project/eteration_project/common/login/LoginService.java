@@ -1,0 +1,41 @@
+package com.eteration_project.eteration_project.common.login;
+
+import com.eteration_project.eteration_project.common.Token.JwtUtil;
+import com.eteration_project.eteration_project.common.login.dto.LoginRequestDto;
+import com.eteration_project.eteration_project.common.login.dto.LoginResponseDto;
+import com.eteration_project.eteration_project.user.service.impl.CustomUserDetailService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class LoginService {
+
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailService userDetailService;
+    private final JwtUtil jwtUtil;
+
+    public LoginResponseDto login(LoginRequestDto loginRequest) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
+            String token = jwtUtil.generateToken(userDetails.getUsername());
+
+            return new LoginResponseDto(token);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Email ya da şifre hatalı");
+        }
+    }
+}
+

@@ -1,6 +1,7 @@
 package com.eteration_project.eteration_project.user.service.impl;
 
 
+import com.eteration_project.eteration_project.common.config.EncoderConfig;
 import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
 import com.eteration_project.eteration_project.project.repository.ProjectRepository;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
@@ -32,7 +33,7 @@ public class UserService implements IUserService {
     private final UserValidator userValidator;
     private final MessageSource messageSource;
     private final UserRepository userRepository;
-    private final ProjectRepository projectRepository;
+    private final EncoderConfig encoderConfig;
 
     @Override
     public UserResponseDto create(UserSaveDto userSaveDto) {
@@ -40,6 +41,8 @@ public class UserService implements IUserService {
         userValidator.isUserExistsCreateValidation(userSaveDto.getEmail());    //kullanıcı kontrolünü validator aracılıgı ile yaptık
 
         UserResponseDto userDto = new UserResponseDto();
+        String hashedPassword = encoderConfig.passwordEncoder().encode(userSaveDto.getPassword());
+        userSaveDto.setPassword(hashedPassword);
         User savedUser = userRepository.save(userSaveDto);
         userDto = userMapper.userToUserDto(savedUser);//map struct ile entity ile dto map edildi
 
@@ -50,16 +53,11 @@ public class UserService implements IUserService {
     @Override
     public List<UserResponseDto> listAllUsers() {
 
-        List<UserResponseDto> userDtoList = new ArrayList<>();
         List<User> usersList = userRepository.getAllUsers();
         if (usersList.isEmpty()) {
             throw new CustomNotFoundException("error.user.not.found");
         }
-        for (User user : usersList) {
-            UserResponseDto userDto = userMapper.userToUserDto(user);
-            userDtoList.add(userDto);
-        }
-        return userDtoList;
+        return userMapper.entityToDtoList(usersList);
     }
 
     @Override
