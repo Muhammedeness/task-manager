@@ -14,9 +14,7 @@ import lombok.Setter;
 public class ProjectResponseDto {
 
     private  String projectName;
-
     private  String  description;
-
 }
 
 
