@@ -1,14 +1,15 @@
 package com.eteration_project.eteration_project.common.security.token;
 
-import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
+import com.eteration_project.eteration_project.auth.service.AuthService;
 import com.eteration_project.eteration_project.user.service.impl.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Locale;
+import org.slf4j.Logger;
 
 @Component
 @RequiredArgsConstructor
@@ -26,18 +28,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailService userDetailsService;
     private final MessageSource messageSource;
+    private static final Logger logger =  LoggerFactory.getLogger(AuthService.class);
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        // Login endpoint'ine gelen istekleri filtrelemeden devam ettir
-        String path = request.getServletPath();
-        if (path.equals("/api/auth/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         String authHeader = request.getHeader("Authorization");
 
@@ -59,6 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (RuntimeException e) {
+            logger.warn("catched: {}" , e.getMessage());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(messageSource.getMessage("invalid.token" , null , Locale.getDefault()));
