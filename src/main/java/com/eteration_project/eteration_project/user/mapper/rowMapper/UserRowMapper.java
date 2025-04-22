@@ -17,6 +17,8 @@ public class UserRowMapper implements RowMapper<User> {
         user.setLastName(rs.getString("last_name"));
         user.setBirthDate(rs.getDate("birth_date")); // ResultSet'tan Date alınmalı
         user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+
         // projects listesini burada doldurmak için ek sorgular gerekebilir,
         // bu RowMapper sadece User nesnesini temel sütunlardan oluşturur.
         return user;
