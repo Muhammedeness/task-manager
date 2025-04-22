@@ -61,7 +61,16 @@ public class GlobalExceptionHandler {
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
 
             String fieldname = ((FieldError) objectError).getField();
-            customMethodArgumentNotValidExceptionMessage.addErrorToTheMap(fieldname, objectError.getDefaultMessage());
+
+
+
+            String localizedMessage = messageSource.getMessage(
+                    objectError.getDefaultMessage(), // bu aslında key olmalı
+                    null,
+                    objectError.getDefaultMessage(), // fallback
+                    Locale.getDefault()
+            );
+            customMethodArgumentNotValidExceptionMessage.addErrorToTheMap(fieldname, localizedMessage);
         }
         return customMethodArgumentNotValidExceptionMessage;
     }

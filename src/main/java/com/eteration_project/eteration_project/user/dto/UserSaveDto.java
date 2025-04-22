@@ -14,26 +14,26 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserSaveDto {
 
-    @NotBlank(message = "İsim alanı boş bırakılamaz")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "İsim Alanın Lütfen Kontrol Ediniz")
-    @Size(min = 2  , max = 25 , message = "Fazla veya az karakter kullanıldı")
+    @NotBlank(message = "name.is.required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "check.name.field")
+    @Size(min = 2  , max = 25 , message = "invalid.size")
     private String firstName;
 
-    @NotBlank(message = "Soyisim alanı boş bırakılamaz")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Soyisim Alanını Lütfen Kontrol Ediniz")
-    @Size(min = 2 , max = 25 , message = "Fazla veya az karakter kullanıldı")
+    @NotBlank(message = "lastname.is.required")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "check.name.field")
+    @Size(min = 2 , max = 25 , message = "invalid.size")
     private String lastName;
 
-    @Past(message = "Doğum Tarihi Gelecekte ki bir tarih olarak girildi")
+    @Past(message = "invalid.birth.date")
     private Date birthDate;
 
-    @NotBlank(message = "Mail alanı boş bırakılamaz")
+    @NotBlank(message = "mail.is.required")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE , message = "Geçerli Bİr Mail Adresi Giriniz")
+            flags = Pattern.Flag.CASE_INSENSITIVE , message = "invalid.mail")
     private String email;
 
-    @NotBlank(message = "Şifre alanı boş bırakılamaz")
-    @Size(min = 4, message = "Şifre en az 4 karakter olmalıdır")
+    @NotBlank(message = "password.is.required")
+    @Size(min = 4, message = "invalid.password.size")
     private String password;
 
 }
