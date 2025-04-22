@@ -1,12 +1,12 @@
-package com.eteration_project.eteration_project.common.auth;
+package com.eteration_project.eteration_project.auth.controller;
 
-import com.eteration_project.eteration_project.common.auth.dto.LoginRequestDto;
-import com.eteration_project.eteration_project.common.auth.dto.LoginResponseDto;
+import com.eteration_project.eteration_project.auth.dto.LoginRequestDto;
+import com.eteration_project.eteration_project.auth.dto.LoginResponseDto;
+import com.eteration_project.eteration_project.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
