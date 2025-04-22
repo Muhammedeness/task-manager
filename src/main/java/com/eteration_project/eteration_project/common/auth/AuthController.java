@@ -3,6 +3,7 @@ package com.eteration_project.eteration_project.common.auth;
 import com.eteration_project.eteration_project.common.auth.dto.LoginRequestDto;
 import com.eteration_project.eteration_project.common.auth.dto.LoginResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/login")
    // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequest) {
 
             LoginResponseDto response = loginService.login(loginRequest);
             return ResponseEntity.ok(response);
