@@ -56,7 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (RuntimeException e) {
-            logger.warn("catched: {}" , e.getMessage());
+            logger.warn("JwtAuthFilter Token: {}" , e.getMessage());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(messageSource.getMessage("invalid.token" , null , Locale.getDefault()));
