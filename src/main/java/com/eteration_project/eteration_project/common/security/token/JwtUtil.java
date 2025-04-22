@@ -1,4 +1,4 @@
-package com.eteration_project.eteration_project.common.token;
+package com.eteration_project.eteration_project.common.security.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -57,14 +57,20 @@ public class JwtUtil {
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    // Method to check if the token is expired
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // Method to extract the expiration date from the token
+
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public Date getExpiration(String token){
+        return  Jwts.parser()
+                     .setSigningKey(secretKey)
+                     .parseClaimsJws(token)
+                     .getBody().getExpiration();
     }
 }
 
