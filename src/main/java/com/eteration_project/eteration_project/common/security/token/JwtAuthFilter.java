@@ -28,7 +28,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailService userDetailsService;
     private final MessageSource messageSource;
-    private static final Logger logger =  LoggerFactory.getLogger(AuthService.class);
+    private static final Logger logger =  LoggerFactory.getLogger(JwtAuthFilter.class);
 
 
     @Override
@@ -56,7 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (RuntimeException e) {
-            logger.warn("JwtAuthFilter Token: {}" , e.getMessage());
+            logger.error("JwtAuthFilter Token: {}" , e.getMessage());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(messageSource.getMessage("invalid.token" , null , Locale.getDefault()));
