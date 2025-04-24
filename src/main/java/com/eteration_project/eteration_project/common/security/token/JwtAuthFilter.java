@@ -1,6 +1,5 @@
 package com.eteration_project.eteration_project.common.security.token;
 
-import com.eteration_project.eteration_project.auth.service.AuthService;
 import com.eteration_project.eteration_project.user.service.impl.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

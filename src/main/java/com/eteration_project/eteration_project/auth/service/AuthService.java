@@ -36,10 +36,11 @@ public class AuthService {
             );
            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
            System.out.println("Auth Provider: " + authenticationManager.getClass());
-            String token = jwtUtil.generateToken(userDetails.getUsername());
+            String token = jwtUtil.generateToken(userDetails.getUsername());  //email ile token olustur
             Date expiredDate = jwtUtil.getExpiration(token);
             String email = jwtUtil.extractEmail(token);
-            return new LoginResponseDto(token , expiredDate , email);
+            String name = jwtUtil.extractName(token);
+            return new LoginResponseDto(token , expiredDate , email , name);
        }
        catch (BadCredentialsException e) {
            logger.warn("AuthService username or password invalid : {}", e.getMessage());                 //Hata mesajı logger araciligi ile loglandı

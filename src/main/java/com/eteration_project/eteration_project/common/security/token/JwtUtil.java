@@ -1,8 +1,11 @@
 package com.eteration_project.eteration_project.common.security.token;
 
+import com.eteration_project.eteration_project.user.model.User;
+import com.eteration_project.eteration_project.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -11,6 +14,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
 
     // Secret key for signing JWT token
@@ -21,10 +25,15 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
+    private final UserRepository userRepository;
+
     // Method to generate token
     public String generateToken(String email) {
+        User user = userRepository.findUserByEmail(email);
+        String name = user.getFirstName() +" "+  user.getLastName();
         return Jwts.builder()
                 .setSubject(email)
+                .claim("name" , name)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
@@ -34,6 +43,10 @@ public class JwtUtil {
     // Method to extract email from the token
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractName(String token){
+        return extractClaim(token , claims -> claims.get("name" , String.class));
     }
 
     // Method to extract a claim from the token
