@@ -43,7 +43,7 @@ public class AuthService {
             return new LoginResponseDto(token , expiredDate , email , name);
        }
        catch (BadCredentialsException e) {
-           logger.warn("AuthService username or password invalid : {}", e.getMessage());                 //Hata mesajı logger araciligi ile loglandı
+           logger.warn("AuthService username or password invalid : {}", e.getMessage());//Hata mesajı logger araciligi ile loglandı
            throw  new BadCredentialsException("invalid.email.or.password.security");   //message.properties  dosyasındandan
                                                                                        // bu key ile bilgilendirme mesajı gönderilir
         }
