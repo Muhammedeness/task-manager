@@ -1,5 +1,6 @@
 package com.eteration_project.eteration_project.auth.service;
 
+import com.eteration_project.eteration_project.auth.dto.TokenInspectDto;
 import com.eteration_project.eteration_project.common.security.token.JwtUtil;
 import com.eteration_project.eteration_project.auth.dto.LoginRequestDto;
 import com.eteration_project.eteration_project.auth.dto.LoginResponseDto;
@@ -35,7 +36,6 @@ public class AuthService {
                     )
             );
            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-           System.out.println("Auth Provider: " + authenticationManager.getClass());
             String token = jwtUtil.generateToken(userDetails.getUsername());  //email ile token olustur
             Date expiredDate = jwtUtil.getExpiration(token);
             String email = jwtUtil.extractEmail(token);
@@ -44,10 +44,21 @@ public class AuthService {
        }
        catch (BadCredentialsException e) {
            logger.warn("AuthService username or password invalid : {}", e.getMessage());                 //Hata mesajı logger araciligi ile loglandı
-
            throw  new BadCredentialsException("invalid.email.or.password.security");   //message.properties  dosyasındandan
                                                                                        // bu key ile bilgilendirme mesajı gönderilir
         }
+    }
+
+
+    public TokenInspectDto inspectToken(String token){
+
+        TokenInspectDto tokenInspectDto= new TokenInspectDto();
+        Boolean isActive = jwtUtil.isTokenExpired(token);
+        if (!isActive) {
+            tokenInspectDto.setActive(true);
+        }
+        return tokenInspectDto;
+
     }
 }
 
