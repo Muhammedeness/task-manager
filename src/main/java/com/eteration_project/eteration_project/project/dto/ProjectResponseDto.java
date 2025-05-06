@@ -15,6 +15,7 @@ public class ProjectResponseDto {
 
     private  String projectName;
     private  String  description;
+    private  String  state;
 }
 
 

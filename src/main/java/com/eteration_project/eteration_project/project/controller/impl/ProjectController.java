@@ -1,10 +1,12 @@
 package com.eteration_project.eteration_project.project.controller.impl;
 
+import com.eteration_project.eteration_project.keycloak.service.KeycloakService;
 import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
 import com.eteration_project.eteration_project.user.dto.AssignUserDto;
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
 import com.eteration_project.eteration_project.project.services.IProjectService;
+import com.eteration_project.eteration_project.user.dto.UserDetailsDTO;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/project")
@@ -22,8 +25,14 @@ import java.util.Locale;
 public class ProjectController{
 
 
+    private final KeycloakService keycloakService;
     private final MessageSource messageSource;
     private final IProjectService projectService;
+
+    @PostMapping("/test")
+    public String testMethod(){
+        return "Public /test/ | Function has been executed successfully";
+    }
 
     @PostMapping(path = "/create")
     public ProjectResponseDto create(@RequestBody @Valid ProjectSaveDto projectSaveDto) {
@@ -31,32 +40,28 @@ public class ProjectController{
     }
 
     @PostMapping(path = "/assign")
-    public String assignUserToProject(@RequestBody AssignUserDto assignUserDto) {
-        return  projectService.assignUserToProject(assignUserDto) ;
+    public String assignUserToProject(@RequestParam  String projectName , @RequestParam String email) {
+        return  projectService.assignUserToProject(projectName , email) ;
     }
 
-    @DeleteMapping("/unassign")
-    public String unAssignUserFromProject(@RequestBody AssignUserDto assignUserDto) {
-        return projectService.unAssignUserFromProject(assignUserDto);
+    @PostMapping(path = "/unassign")
+    public String unassignUserFromProject(@RequestParam  String projectName , @RequestParam String email) {
+        return  projectService.unassignUserFromProject(projectName , email) ;
     }
 
-    @GetMapping(path = "/list")
-    public ResponseEntity<List<ProjectResponseDto>> listAllProjects(){
+    @PostMapping(path = "/get-admin-access")
+    public String getAdminAccess() {
+        return  keycloakService.getAdminAccessToken();
+    }
+
+    @PostMapping(path = "/list")
+    public ResponseEntity<List<ProjectResponseDto>> listProjects() {
         return ResponseEntity.ok(projectService.listAllProjects());
     }
 
-    @DeleteMapping(path = "/delete/{projectName}")
-    public ResponseEntity<String> deleteProject(@PathVariable String projectName){
-
-        projectService.delete(projectName);
-        String responseMsg = messageSource.getMessage("success.project.delete" , null , Locale.getDefault());
-        return ResponseEntity.ok(responseMsg);
+    @PostMapping(path = "/done-project")
+    public  ResponseEntity<String> doneProject(@RequestParam String projectName){
+        projectService.doneProject(projectName);
+        return  ResponseEntity.ok("success.project.done");
     }
-
-    @GetMapping(path = "/project-info/{projectName}")
-    public ResponseEntity<ProjectDetailsDto> getProjectUserInfos(@PathVariable String projectName){
-        return  ResponseEntity.ok(projectService.getProjectUserInfos(projectName));
-    }
-
-
 }

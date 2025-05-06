@@ -1,58 +1,46 @@
 package com.eteration_project.eteration_project.project.validation;
 
 import com.eteration_project.eteration_project.common.exception.CustomDataExistsException;
-import com.eteration_project.eteration_project.common.exception.CustomNotFoundException;
-import com.eteration_project.eteration_project.common.exception.CustomRuntimeException;
-import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
-import com.eteration_project.eteration_project.project.model.Project;
-import com.eteration_project.eteration_project.project.repository.ProjectRepository;
-import com.eteration_project.eteration_project.user.dto.AssignUserDto;
+import com.eteration_project.eteration_project.project.repository.ValidationRepository.ValidationRepoImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectValidator {
 
-    private  final ProjectRepository projectRepository;
 
-    public void isProjectCreated(String projectName){
+    private  final ValidationRepoImpl validationRepo;
 
-//        Optional<Project> project = projectRepository.getProjectByName(projectName);
+    public boolean isProjectCreatedValidator(String projectName){
 
-        Boolean project = projectRepository.findProjectByName(projectName);
-        if (project) {
+        Boolean exists = validationRepo.findProjectByName(projectName);
+        if (exists) {
             throw  new CustomDataExistsException("error.project.create");
         }
+        return exists;
     }
 
-    public void isUserAssignedToProjectValidation(AssignUserDto assignUserDto){
-        if (projectRepository.isUserAssignedToProject(assignUserDto)) {
-            throw new CustomRuntimeException("user.assigned");
+    public boolean isUserAssignedToProjectValidator(UUID projectId , UUID userId){
+        Boolean exists = validationRepo.isUserAssignedToProject(projectId , userId);
+        if (exists) {
+            throw  new CustomDataExistsException("user.assigned");
         }
+        return exists;
     }
 
-    public void isUserNotAssignedToProjectValidation(AssignUserDto assignUserDto){
-        if (!projectRepository.isUserAssignedToProject(assignUserDto)) {
-            throw new CustomRuntimeException("error.user.unassign");
+    public boolean isUserNotAssignedToProjectValidator(UUID projectId , UUID userId){
+        Boolean exists = validationRepo.isUserAssignedToProject(projectId , userId);
+        if (!exists) {
+            throw  new CustomDataExistsException("error.assigned.user.not.found");
         }
+        return exists;
     }
 
-    public  void isListEmpty(List<ProjectResponseDto> projectResponseDtos){
+    public boolean isProjectDone(){
 
-        if (projectResponseDtos.isEmpty()) {
-            throw  new CustomNotFoundException("error.project.not.found");
-        }
     }
-
-    public void isProjectHaveUsersValidation(Integer projectId){
-        if (projectRepository.isProjecthaveUsers(projectId)) {
-            throw new CustomDataExistsException("error.project.delete");
-        }
-    }
-
 }
+

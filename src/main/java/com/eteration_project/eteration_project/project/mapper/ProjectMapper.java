@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ProjectMapper {
 
-    ProjectResponseDto projectToProjectDto(Project project);
+    ProjectResponseDto entityToDto(Project project);
 
 }

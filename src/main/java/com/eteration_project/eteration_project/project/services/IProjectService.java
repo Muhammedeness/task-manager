@@ -1,24 +1,17 @@
 package com.eteration_project.eteration_project.project.services;
 
-import com.eteration_project.eteration_project.project.dto.ProjectDetailsDto;
-import com.eteration_project.eteration_project.user.dto.AssignUserDto;
+
 import com.eteration_project.eteration_project.project.dto.ProjectResponseDto;
 import com.eteration_project.eteration_project.project.dto.ProjectSaveDto;
+
 
 import java.util.List;
 
 public interface IProjectService {
 
-
-    ProjectResponseDto create(ProjectSaveDto projectSaveDto);
-
-    String assignUserToProject(AssignUserDto assignUserDto);
-
-    String unAssignUserFromProject(AssignUserDto assignUserDto);
-
+    ProjectResponseDto create( ProjectSaveDto projectSaveDto);
+    String assignUserToProject(String projectName , String email);
+    String unassignUserFromProject(String projectName ,String email);
     List<ProjectResponseDto> listAllProjects();
-
-    void delete(String projectName);
-
-    ProjectDetailsDto getProjectUserInfos(String projectName);
+    void doneProject(String projectName);
 }
